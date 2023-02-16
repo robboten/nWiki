@@ -1,10 +1,13 @@
 ﻿<div class="card h-auto w-auto">
-    <img src="https://github.com/NoahFerm/Wiki1.0/blob/main/Wiki/bilder/zev.png?raw=true" class="card-img-top" alt="Picture of Name">
+    <img src="@PortraitUrl" class="card-img-top" alt="Picture of Name">
     <div class="card-body">
         <h4 class="card-title">Character Name</h4>
         <h5 class="card-title">Basic Info</h5>
         <div class="card-body d-inline-flex">
-            <span>Species</span><ul><li>Hej</li><li>Hej</li></ul>
+            <span>Species</span><ul><li>@BasicInfo.Speices</li><li>Hej</li></ul>
+        </div>
+        <div class="card-body d-inline-flex">
+            <span>Age</span><span>@BasicInfo.Age</span>
         </div>
         <h5 class="card-title">Family Info</h5>
         <div class="card-body d-inline-flex">
@@ -12,3 +15,12 @@
         </div>
     </div>
 </div>
+
+@code {
+    [Parameter]
+    public string PortraitUrl { get; set; } = string.Empty;
+
+    [Parameter]
+    public BasicInfo BasicInfo { get; set; }
+
+}

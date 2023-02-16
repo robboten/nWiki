@@ -1,0 +1,17 @@
+﻿<div class="container">
+    <div class="row"><h1>@character.Name</h1></div>
+    <div class="row">
+        <div class="col-9">
+            <QuoteCard text="@character.Quote" source="@character.Name"></QuoteCard>
+            <TextBlock></TextBlock>
+            <TextBlock></TextBlock>
+            <TextBlock></TextBlock>
+        </div>
+        <div class="col"><BasicInfoCard PortraitUrl="@character.PortraitUrl" BasicInfo="@character.BasicInfo"></BasicInfoCard></div>
+    </div> 
+</div>
+
+@code {
+    [Parameter]
+    public Character? character { get; set; }
+}

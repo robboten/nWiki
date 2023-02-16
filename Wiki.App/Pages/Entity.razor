@@ -1,18 +1,23 @@
-﻿@page "/entity"
+﻿@page "/entity/{Id:int}"
+@using Wiki.App.Services;
 
 <PageTitle>Character Name</PageTitle>
-<div class="container">
-    <div class="row"><h1>Character</h1></div>
-    <div class="row">
-        <div class="col-9">
-            <QuoteCard></QuoteCard>
-            <TextBlock></TextBlock>
-            <TextBlock></TextBlock>
-            <TextBlock></TextBlock>
-        </div>
-        <div class="col"><BasicInfoCard></BasicInfoCard></div>
-    </div> 
-</div>
+<EntityComponent Character="@character"></EntityComponent>
 
 
+@code {
 
+    [Parameter]
+    public int Id{ get; set; }
+
+    private Character character = new Character();
+
+    [Inject]
+    public IWikiClient mockClient { get; set; } = default!;
+
+    protected override async Task OnInitializedAsync()
+    {
+        character = await mockClient.GetCharacterByIdAsync(Id);
+    }
+
+}

@@ -1,11 +1,12 @@
 ﻿<figure class="border rounded px-4 pt-3 text-muted">
     <blockquote class="blockquote pb-2">
-        <p class="fs-6">
-            Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-            Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a 
-        galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also 
-        the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the 
-        release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like 
-        Aldus PageMaker including versions of Lorem Ipsum.</p></blockquote>
-    <figcaption class="blockquote-footer">Someone famous in <cite title="Source Title">Source Title</cite></figcaption>
+        <p class="fs-6">@text</p></blockquote>
+    <figcaption class="blockquote-footer"><cite title="Source Title">@source</cite></figcaption>
 </figure>
+
+@code {
+    [Parameter]
+    public string text { get; set; } = string.Empty;
+    [Parameter]
+    public string source { get; set; } = string.Empty;
+}
