@@ -3,7 +3,7 @@ using Wiki.App.Entities;
 
 namespace Wiki.App.Services
 {
-    public class MockClient
+    public class MockClient : IWikiClient
     {
         private readonly HttpClient _httpClient;
         public MockClient(HttpClient httpClient)
@@ -20,6 +20,12 @@ namespace Wiki.App.Services
                     Id= 1,
                     Name="Zev",
                     Age=23
+                },
+                new Character()
+                {
+                    Id= 2,
+                    Name="Loz",
+                    Age=24
                 }
             };
             return result;
