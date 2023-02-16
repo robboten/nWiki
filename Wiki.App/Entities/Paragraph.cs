@@ -1,6 +1,6 @@
 ﻿namespace Wiki.App.Entities
 {
-    public class TextBlock
+    public class Paragraph
     {
         public int Id { get; set; }
         public string Header { get; set; }
