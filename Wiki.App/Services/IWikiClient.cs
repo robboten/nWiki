@@ -6,5 +6,7 @@ namespace Wiki.App.Services
     {
         Task<IEnumerable<Character>> GetCharactersAsync();
         Task<Character> GetCharacterByIdAsync(int? Id);
+        Task<IEnumerable<Paragraph>> GetParagraphsAsync();
+        Task<Paragraph> GetParagraphByIdAsync(int? Id);
     }
 }

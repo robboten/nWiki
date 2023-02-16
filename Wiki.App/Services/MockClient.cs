@@ -7,6 +7,7 @@ namespace Wiki.App.Services
     {
         private readonly HttpClient _httpClient;
         private readonly List<Character> characters= new List<Character>();
+        private readonly List<Paragraph> paragraphs = new List<Paragraph>();
         public MockClient(HttpClient httpClient)
         {
             _httpClient = httpClient;
@@ -22,7 +23,7 @@ namespace Wiki.App.Services
                     BasicInfo=new BasicInfo()
                     {
                         Age=23,
-                        Speices="Humanoid"
+                        Species="Humanoid"
                     }
 
                 },
@@ -36,8 +37,20 @@ namespace Wiki.App.Services
                                         BasicInfo=new BasicInfo()
                     {
                         Age=24,
-                        Speices="Lizard"
+                        Species="Lizard"
                     }
+                }
+            };
+            paragraphs = new List<Paragraph>() {
+                new Paragraph()
+                {
+                    Header="Overview",
+                    Body="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent et arcu et est semper molestie at sit amet urna. Integer eget aliquam sapien, sed tempor velit. "
+                },
+                new Paragraph()
+                {
+                    Header="Early life",
+                    Body="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent et arcu et est semper molestie at sit amet urna. Integer eget aliquam sapien, sed tempor velit. "
                 }
             };
         }
@@ -51,6 +64,15 @@ namespace Wiki.App.Services
         {
 
             return characters.FirstOrDefault(c => c.Id == Id);
+        }
+        public async Task<IEnumerable<Paragraph>> GetParagraphsAsync()
+        {
+            return paragraphs;
+        }
+        public async Task<Paragraph> GetParagraphByIdAsync(int? Id)
+        {
+
+            return paragraphs.FirstOrDefault(c => c.Id == Id);
         }
     }
 }
