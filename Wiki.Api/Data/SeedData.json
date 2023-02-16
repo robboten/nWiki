@@ -1,13 +1,20 @@
 ﻿[
   {
     "Quote": "Oh, no. Do not drag me into this",
-    "Name": "Killian Audley"
-    //"Birthday": "28th June 2001",
-    //"Status": "Alive",
+    "Name": "Killian Audley",
+    "Birthday": "2001-06-28T00:00:00",
+    "Status": "Alive"
     //"Aliases": [ "Kyle", "Audley", "Royal Knight" ],
     //"Species": null,
     //"Occupation": [ "Student (formerly)", "Knight" ],
     //"Family Members": [ "Elise Audley (mother)", " Samuel Audley(father)" ],
     //"Relationships": []
+  },
+  {
+    "Name": "Zev",
+    "Birthday": "2001-06-28T00:00:00",
+    "Status": "Alive",
+    "Quote": "Integer vehicula vitae velit quis semper. Aliquam porta erat sit amet aliquam lobortis. Vivamus et ligula eget justo pharetra sagittis. Fusce lorem ipsum, sagittis quis turpis a, maximus auctor ipsum.",
+    "PortraitUrl": "https://github.com/NoahFerm/Wiki1.0/blob/main/Wiki/bilder/zev.png?raw=true"
   }
 ]
