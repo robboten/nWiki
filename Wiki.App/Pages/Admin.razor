@@ -3,21 +3,6 @@
 
 <h3>Admin</h3>
 
-<ul>
-@foreach(var c in characters)
-{
-    <li>@c.Name</li>
-}
-</ul>
+<CharacterList></CharacterList>
 
-@code {
-    private IEnumerable<Character> characters = new List<Character>();
-    [Inject]
-    public IWikiClient mockClient { get; set; } = default!;
 
-    protected override async Task OnInitializedAsync()
-    {
-        characters = await mockClient.GetCharactersAsync();
-    }
-
-}
