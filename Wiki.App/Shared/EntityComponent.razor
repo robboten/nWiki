@@ -3,10 +3,9 @@
     <div class="row">
         <div class="col-9">
             <QuoteCard text="@character.Quote" source="@character.Name"></QuoteCard>
-            @foreach (Paragraph paragraph in paragraphs)
-            {
-                <TextBlock Header="@paragraph.Header" Body="@paragraph.Body"></TextBlock>
-            }
+            <p>
+                @character.Text
+            </p>
         </div>
         <div class="col"><BasicInfoCard PortraitUrl="@character.PortraitUrl" BasicInfo="@character.BasicInfo"></BasicInfoCard></div>
     </div> 
@@ -14,7 +13,7 @@
 
 @code {
     [Parameter]
-    public Character? character { get; set; }
+    public Character? character { get; set; } = new Character();
     [Parameter]
-    public List<Paragraph> paragraphs { get; set; }
+    public List<Paragraph> paragraphs { get; set; } = new List<Paragraph>();
 }

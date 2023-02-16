@@ -1,16 +1,33 @@
 ﻿@page "/"
+@using Wiki.App.Services;
 
 <PageTitle>Wiki</PageTitle>
 <div class="container">
     <div class="row"><h1>Index</h1></div>
     <div class="row">
         <div class="col">
-            <TextBlock></TextBlock>
-            <TextBlock></TextBlock>
-            <TextBlock></TextBlock>
+            @foreach (Paragraph paragraph in paragraphs)
+            {
+                <TextBlock Header="@paragraph.Header" Body="@paragraph.Body"></TextBlock>
+            }
         </div>
     </div> 
 </div>
 
 
+@code {
 
+    [Parameter]
+    public int Id { get; set; }
+
+    private IEnumerable<Paragraph> paragraphs = new List<Paragraph>();
+
+    [Inject]
+    public IWikiClient mockClient { get; set; } = default!;
+
+    protected override async Task OnInitializedAsync()
+    {
+        paragraphs = await mockClient.GetParagraphsAsync();
+    }
+
+}
