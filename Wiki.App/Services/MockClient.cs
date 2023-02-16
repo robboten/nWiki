@@ -24,7 +24,8 @@ namespace Wiki.App.Services
                     {
                         Age=23,
                         Species="Humanoid"
-                    }
+                    },
+                    Text="Lorem ipsum"
 
                 },
                 new Character()
@@ -38,7 +39,8 @@ namespace Wiki.App.Services
                     {
                         Age=24,
                         Species="Lizard"
-                    }
+                    },
+                    Text="Lorem ipsum"
                 }
             };
             paragraphs = new List<Paragraph>() {

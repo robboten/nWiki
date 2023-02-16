@@ -11,6 +11,7 @@
 
         public BasicInfo BasicInfo { get; set; } = new BasicInfo();
         public string PortraitUrl { get; set; } = string.Empty; 
+        public string Text { get; set; } = string.Empty;
         //public List<string> Aliases { get; set; }
         //public List<string> Species { get; set; }
         //public List<Character> Family { get; set; }
