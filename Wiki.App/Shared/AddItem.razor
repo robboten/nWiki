@@ -3,12 +3,23 @@
     <div class="col-4">
         <div class="input-group mb-3 col-4">
             <EditForm EditContext="editContext" OnValidSubmit="OnAddCharacter">
-                <InputText @bind-Value="character.Name" class="form-control" id="charText" placeholder="Name"></InputText>
-                <InputDate @bind-Value="character.Birthday" class="form-control" id="charBday"></InputDate>
-                <InputText @bind-Value="character.Status" class="form-control" id="charStatus" placeholder="Status"></InputText>
-                <InputTextArea @bind-Value="character.Quote" class="form-control" id="charQuote" placeholder="Quote"></InputTextArea>
-                <InputText @bind-Value="character.PortraitUrl" class="form-control" id="charPortraitUrl" placeholder="Portrait Url"></InputText>
-                <InputTextArea @bind-Value="character.Text" class="form-control" id="charAbout" placeholder="About text"></InputTextArea>
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+                <InputText @bind-Value="character.Name" class="form-control" id="name" placeholder="Name"></InputText>
+                <InputDate @bind-Value="character.Birthday" class="form-control" id="birthday"></InputDate>
+                @*<InputText @bind-Value="character.Status" class="form-control" id="status" placeholder="Status"></InputText>*@
+                   
+                    <InputSelect class="form-select" @bind-Value="character.Status">
+                    <option selected>Select Status:</option>
+                        <option value="alive">Alive</option>
+                        <option value="dead">Dead</option>
+                        <option value="unknown">Unknown</option>
+                    </InputSelect>
+
+
+                <InputTextArea @bind-Value="character.Quote" class="form-control" id="quote" placeholder="Quote"></InputTextArea>
+                <InputText @bind-Value="character.PortraitUrl" class="form-control" id="portraitUrl" placeholder="Portrait Url"></InputText>
+                <InputTextArea @bind-Value="character.Text" class="form-control" id="text" placeholder="About text"></InputTextArea>
                 <button type="submit" id="addItemBtn" class="btn btn-primary">Add</button>
             </EditForm>
         </div>
@@ -30,6 +41,6 @@
     public async Task OnAddCharacter()
     {
         await AddCharacter.InvokeAsync(character);
-        
+
     }
 }
