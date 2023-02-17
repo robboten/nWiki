@@ -25,12 +25,12 @@ using (var scope = app.Services.CreateScope())
     var db = scope.ServiceProvider.GetRequiredService<WikiApiContext>();
 
 
-    //db.Database.EnsureDeleted();
-    //db.Database.Migrate();
+    db.Database.EnsureDeleted();
+    db.Database.Migrate();
 
     try
     {
-        //await SeedData.InitAsync(app);
+        await SeedData.InitAsync(app);
     }
     catch (Exception e)
     {
