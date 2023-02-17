@@ -1,17 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Wiki.Api;
 using Wiki.Api.Data;
 
 namespace Wiki.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Produces("application/json")]
     public class CharactersController : ControllerBase
     {
         private readonly WikiApiContext _context;
@@ -25,10 +20,10 @@ namespace Wiki.Api.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Character>>> GetCharacter()
         {
-          if (_context.Character == null)
-          {
-              return NotFound();
-          }
+            if (_context.Character == null)
+            {
+                return NotFound();
+            }
             return await _context.Character.ToListAsync();
         }
 
@@ -36,10 +31,10 @@ namespace Wiki.Api.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Character>> GetCharacter(int id)
         {
-          if (_context.Character == null)
-          {
-              return NotFound();
-          }
+            if (_context.Character == null)
+            {
+                return NotFound();
+            }
             var character = await _context.Character.FindAsync(id);
 
             if (character == null)
@@ -86,10 +81,10 @@ namespace Wiki.Api.Controllers
         [HttpPost]
         public async Task<ActionResult<Character>> PostCharacter(Character character)
         {
-          if (_context.Character == null)
-          {
-              return Problem("Entity set 'WikiApiContext.Character'  is null.");
-          }
+            if (_context.Character == null)
+            {
+                return Problem("Entity set 'WikiApiContext.Character'  is null.");
+            }
             _context.Character.Add(character);
             await _context.SaveChangesAsync();
 
@@ -122,63 +117,3 @@ namespace Wiki.Api.Controllers
         }
     }
 }
-
-
-
-//using Microsoft.AspNetCore.Http;
-//using Microsoft.AspNetCore.Mvc;
-
-//namespace Wiki.Api.Controllers
-//{
-//    [Route("api/[controller]")]
-//    [ApiController]
-//    [Produces("application/json")]
-//    public class CharactersController : ControllerBase
-//    {
-//        private readonly List<Character> characters = new();
-//        public CharactersController()
-//        {
-//            characters = new List<Character>()
-//            {
-//                new Character()
-//                {
-//                    Id= 1,
-//                    Name="Zev",
-//                    Age=23,
-//                    Quote="Integer vehicula vitae velit quis semper. Aliquam porta erat sit amet aliquam lobortis. Vivamus et ligula eget justo pharetra sagittis. Fusce lorem ipsum, sagittis quis turpis a, maximus auctor ipsum.",
-//                    PortraitUrl="https://github.com/NoahFerm/Wiki1.0/blob/main/Wiki/bilder/zev.png?raw=true",
-
-//                },
-//                new Character()
-//                {
-//                    Id= 2,
-//                    Name="Alex",
-//                    Age=24,
-//                    Quote="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent et arcu et est semper molestie at sit amet urna. Integer eget aliquam sapien, sed tempor velit. ",
-//                    PortraitUrl="https://github.com/NoahFerm/Wiki1.0/blob/main/Wiki/bilder/alex.png?raw=true",
-//                }
-//            };
-//        }
-
-//        [HttpGet]
-//        public async Task<ActionResult<IEnumerable<Character>>> GetCharactersAsync()
-//        {
-//            return Ok(characters);
-//        }
-
-//        [HttpGet("{id}")]
-//        public async Task<ActionResult<Character>> GetCharacterByIdAsync(int? id)
-//        {
-
-//            return Ok(characters.FirstOrDefault(c => c.Id == id));
-//        }
-
-//        [HttpDelete("{id}")]
-//        public async Task<ActionResult<Character>> DeleteCharacter(int id)
-//        {
-
-//            return NoContent();
-//        }
-
-//    }
-//}

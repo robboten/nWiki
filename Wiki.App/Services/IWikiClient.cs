@@ -8,5 +8,8 @@ namespace Wiki.App.Services
         Task<Character> GetCharacterByIdAsync(int? Id);
         Task<IEnumerable<Paragraph>> GetParagraphsAsync();
         Task<Paragraph> GetParagraphByIdAsync(int? Id);
+
+        Task<Character> PostAsync(Character character);
+        Task<Character> Remove(Character character);
     }
 }

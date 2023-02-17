@@ -6,6 +6,12 @@ builder.Services.AddDbContext<WikiApiContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("WikiApiContext") ?? throw new InvalidOperationException("Connection string 'WikiApiContext' not found.")));
 
 // Add services to the container.
+builder.Services.AddCors(opt=> {
+    opt.AddDefaultPolicy(policy => {
+      //  policy.AllowAnyOrigin();
+        policy.WithOrigins("https://localhost:7220").AllowAnyHeader().AllowAnyMethod();
+    });
+    });
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -24,7 +30,7 @@ using (var scope = app.Services.CreateScope())
 
     try
     {
-        await SeedData.InitAsync(app);
+        //await SeedData.InitAsync(app);
     }
     catch (Exception e)
     {
@@ -39,6 +45,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors();
 
 app.UseHttpsRedirection();
 

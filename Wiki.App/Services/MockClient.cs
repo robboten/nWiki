@@ -76,5 +76,15 @@ namespace Wiki.App.Services
 
             return paragraphs.FirstOrDefault(c => c.Id == Id);
         }
+
+        public Task<Character> PostAsync(Character character)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Character> Remove(Character character)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

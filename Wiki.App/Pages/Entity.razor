@@ -13,11 +13,11 @@
     private Character character = new Character();
 
     [Inject]
-    public IWikiClient mockClient { get; set; } = default!;
+    public IWikiClient wikiClient { get; set; } = default!;
 
     protected override async Task OnInitializedAsync()
     {
-        character = await mockClient.GetCharacterByIdAsync(Id);
+        character = await wikiClient.GetCharacterByIdAsync(Id);
     }
 
 }
