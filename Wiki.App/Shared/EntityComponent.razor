@@ -4,12 +4,49 @@
         <div class="col-9">
             <QuoteCard text="@character.Quote" source="@character.Name"></QuoteCard>
             <p>
-                Integer vehicula vitae velit quis semper. Aliquam porta erat sit amet aliquam lobortis. Vivamus et ligula eget justo pharetra sagittis. Fusce lorem ipsum, sagittis quis turpis a, maximus auctor ipsum.
                 @character.Text
             </p>
         </div>
-        <div class="col-3"><BasicInfoCard PortraitUrl="@character.PortraitUrl" Age="@character.Age" Species="@character.Species"></BasicInfoCard></div>
-    </div> 
+        <div class="col-3">
+            <div class="card h-auto w-auto">
+                <img src="@character.PortraitUrl" class="card-img-top" alt="Picture of Name">
+                <div class="card-body">
+                    <h4 class="card-title">Character Name</h4>
+                    <h5 class="card-title">Basic Info</h5>
+
+                    <InfoRow label="Age" dataValue="@character.Age.ToString()"></InfoRow>
+                    <InfoRow label="Status" dataValue="@character.Status"></InfoRow>
+
+@*                    <div class="d-flex justify-content-between align-items-start">
+                        <h5 class="data-label">Species</h5>
+                        <div class="data-value">
+                            <ul>
+                                @foreach (var s in character.Species)
+                                {
+                                    <li>@s</li>
+                                }
+                            </ul>
+                        </div>
+                    </div>*@
+
+                    <h5 class="card-title">Family Info</h5>
+                    <div class="d-flex justify-content-between align-items-start">
+                        <h5 class="data-label">Family Members</h5>
+                        <div class="data-value">
+                            <ul>
+                                <li>Hej</li>
+                                <li>Hej</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+@*            <BasicInfoCard PortraitUrl="@character.PortraitUrl" Age="@character.Age" Species="@character.Species">
+
+            </BasicInfoCard>*@
+        </div>
+    </div>
 </div>
 
 @code {

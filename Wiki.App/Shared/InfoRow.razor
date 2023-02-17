@@ -1,0 +1,14 @@
+﻿<div class="d-flex justify-content-between align-items-start">
+    <h5 class="data-label">@label</h5>
+    <div class="data-value">
+        @dataValue
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public string label { get; set; } = string.Empty;
+    [Parameter]
+    public string dataValue { get; set; } = string.Empty;
+
+}

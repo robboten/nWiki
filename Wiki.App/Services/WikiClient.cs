@@ -1,4 +1,5 @@
-﻿using System.Net.Http.Json;
+﻿using System.Net.Http;
+using System.Net.Http.Json;
 using Wiki.App.Entities;
 
 namespace Wiki.App.Services
@@ -32,9 +33,10 @@ namespace Wiki.App.Services
             return await _httpClient.GetFromJsonAsync<IEnumerable<Paragraph>>("api/characters");
         }
 
-        public Task<Character> PostAsync(Character character)
+        public async Task<Character?> PostAsync(Character character)
         {
-            throw new NotImplementedException();
+            var response = await _httpClient.PostAsJsonAsync("api/characters", character);
+            return response.IsSuccessStatusCode ? await response.Content.ReadFromJsonAsync<Character>() : null;
         }
 
         public Task<Character> Remove(Character character)

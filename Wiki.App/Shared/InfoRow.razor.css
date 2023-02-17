@@ -1,0 +1,13 @@
+﻿.data-label {
+    text-transform: uppercase;
+    padding-left: 5px;
+    font-size: .95rem;
+}
+
+.data-value {
+    text-align: right;
+    padding-right: 5px;
+    font-size: 1rem;
+}
+
+

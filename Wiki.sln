@@ -5,7 +5,7 @@ VisualStudioVersion = 17.4.33205.214
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wiki.App", "Wiki.App\Wiki.App.csproj", "{02C44209-4077-455D-A28C-54F0259BAD7C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wiki.Api", "Wiki.Api\Wiki.Api.csproj", "{3243A9D1-4C38-4BB8-A887-73CD294FD67B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wiki.Api", "Wiki.Api\Wiki.Api.csproj", "{3243A9D1-4C38-4BB8-A887-73CD294FD67B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
