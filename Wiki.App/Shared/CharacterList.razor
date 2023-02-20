@@ -1,4 +1,5 @@
-﻿@using Wiki.App.Services;
+﻿@using System.Globalization;
+@using Wiki.App.Services;
 @inject IWikiClient wikiClient
 
 <h3>CharacterList</h3>
@@ -10,6 +11,8 @@
             <th>Name</th>
             <th>ID</th>
             <th>Age</th>
+            <th>Created</th>
+            <th>Updated</th>
             <th></th>
         </tr>
     </thead>
@@ -27,6 +30,12 @@
                     @c.Age
                 </td>
                 <td>
+                    @c.Created.ToString("yyyy-MM-dd H:mm:ss")
+                </td>
+                <td>
+                    @(c.Updated == DateTime.MinValue ? "-" : c.Updated)
+                </td>
+                <td>
                     <button @onclick="async () => await Delete(c)" @onclick:stopPropagation="true" class="btn btn-danger">Delete</button>
                 </td>
             </tr>
@@ -37,6 +46,7 @@
 @code {
     [Parameter]
     public List<Character> characters { get; set; } = new List<Character>();
+    DateTimeFormatInfo myDTFI = new CultureInfo("sv-SE", false).DateTimeFormat;
 
     private async Task Delete(Character character)
     {

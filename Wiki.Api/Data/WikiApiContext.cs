@@ -16,8 +16,36 @@ namespace Wiki.Api.Data
             : base(options)
         {
         }
-    
 
-       
+        //public override int SaveChanges()
+        //{
+        //    foreach (var entry in ChangeTracker.Entries<Character>().Where(e => e.State == EntityState.Modified))
+        //    {
+        //        entry.Property("Updated").CurrentValue = DateTime.Now;
+        //    }
+
+        //    foreach (var entry in ChangeTracker.Entries<Character>().Where(e => e.State == EntityState.Added))
+        //    {
+        //        entry.Property("Created").CurrentValue = DateTime.Now;
+        //    }
+
+        //    return base.SaveChanges();
+        //}
+
+        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        {
+            foreach (var entry in ChangeTracker.Entries<Character>().Where(e => e.State == EntityState.Modified))
+            {
+                entry.Property("Updated").CurrentValue = DateTime.Now;
+            }
+
+            foreach (var entry in ChangeTracker.Entries<Character>().Where(e => e.State == EntityState.Added))
+            {
+                entry.Property("Created").CurrentValue = DateTime.Now;
+            }
+
+            return base.SaveChangesAsync(cancellationToken);
+        }
+
     }
 }
