@@ -43,5 +43,10 @@ namespace Wiki.App.Services
         {
             throw new NotImplementedException();
         }
+
+        public async Task<bool> RemoveAsync(int id)
+        {
+            return (await _httpClient.DeleteAsync($"api/characters/{id}")).IsSuccessStatusCode;
+        }
     }
 }

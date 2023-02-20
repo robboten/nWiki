@@ -6,7 +6,7 @@ namespace Wiki.App.Services
     public class MockClient : IWikiClient
     {
         private readonly HttpClient _httpClient;
-        private readonly List<Character> characters= new List<Character>();
+        private readonly List<Character> characters = new List<Character>();
         private readonly List<Paragraph> paragraphs = new List<Paragraph>();
         public MockClient(HttpClient httpClient)
         {
@@ -73,6 +73,11 @@ namespace Wiki.App.Services
         }
 
         public Task<Character> Remove(Character character)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> RemoveAsync(int id)
         {
             throw new NotImplementedException();
         }
