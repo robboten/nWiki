@@ -1,9 +1,8 @@
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using Wiki.App;
 using Wiki.App.Services;
 
-namespace Wiki.App
+namespace Wiki.App.Client
 {
     public class Program
     {

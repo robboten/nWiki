@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Wiki.Api.Data;
+using Wiki.Api.Entities;
 
 namespace Wiki.Api.Controllers
 {
@@ -16,15 +17,15 @@ namespace Wiki.Api.Controllers
             _context = context;
         }
 
-        // GET: api/Paragraphs
-        //[HttpGet]
-        //public async Task<ActionResult<IEnumerable<Character>>> GetAsync()
-        //{
-        //    if (_context.Character == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    return await _context.Character.ToListAsync();
-        //}
+        //GET: api/Paragraphs
+       [HttpGet]
+        public async Task<ActionResult<IEnumerable<TextBlock>>> GetAsync()
+        {
+            if (_context.TextBlock == null)
+            {
+                return NotFound();
+            }
+            return await _context.TextBlock.ToListAsync();
+        }
     }
 }

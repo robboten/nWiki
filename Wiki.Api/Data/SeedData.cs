@@ -1,8 +1,6 @@
-﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Newtonsoft.Json;
-using Wiki.Api;
+﻿using Newtonsoft.Json;
 using Wiki.Api.Data;
+using Wiki.Api.Entities;
 
 internal class SeedData
 {
@@ -16,7 +14,12 @@ internal class SeedData
 
         List<Character>? characters = JsonConvert.DeserializeObject<List<Character>>(jsonData);
 
+        jsonData = System.IO.File.ReadAllText(@"Data/SeedDataText.json");
+
+        List<TextBlock>? textblocks = JsonConvert.DeserializeObject<List<TextBlock>>(jsonData);
+
         wikiApiContext.AddRange(characters);
+        wikiApiContext.AddRange(textblocks);
         wikiApiContext.SaveChanges();
     }
 

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Wiki.Api.Data;
 
@@ -11,9 +12,11 @@ using Wiki.Api.Data;
 namespace Wiki.Api.Migrations
 {
     [DbContext(typeof(WikiApiContext))]
-    partial class WikiApiContextModelSnapshot : ModelSnapshot
+    [Migration("20230220112313_TextBlock")]
+    partial class TextBlock
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -66,11 +69,11 @@ namespace Wiki.Api.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Body")
+                    b.Property<string>("Header")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Header")
+                    b.Property<string>("Paragraph")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

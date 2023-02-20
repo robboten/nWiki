@@ -30,7 +30,7 @@ namespace Wiki.App.Services
 
         public async Task<IEnumerable<Paragraph>> GetParagraphsAsync()
         {
-            return await _httpClient.GetFromJsonAsync<IEnumerable<Paragraph>>("api/characters");
+            return await _httpClient.GetFromJsonAsync<IEnumerable<Paragraph>>("api/wiki");
         }
 
         public async Task<Character?> PostAsync(Character character)

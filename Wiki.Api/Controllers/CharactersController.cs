@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Wiki.Api.Data;
+using Wiki.Api.Entities;
 
 namespace Wiki.Api.Controllers
 {
