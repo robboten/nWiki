@@ -10,6 +10,9 @@
         public string Quote { get; set; } = string.Empty;
         public string PortraitUrl { get; set; } = string.Empty;
         public string Text { get; set; } = string.Empty;
+
+        public DateTime Created { get; set; }
+        public DateTime Updated { get; set; }
         //public List<string> Aliases { get; set; } = new List<string>();
         //public List<string> Species { get; set; } = new List<string>();
         //public List<Character> Family { get; set; } = new List<Character>();

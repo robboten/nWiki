@@ -23,16 +23,6 @@ namespace Wiki.App.Services
             return await _httpClient.GetFromJsonAsync<IEnumerable<Character>>("api/characters");
         }
 
-        public Task<Paragraph> GetParagraphByIdAsync(int? Id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<IEnumerable<Paragraph>> GetParagraphsAsync()
-        {
-            return await _httpClient.GetFromJsonAsync<IEnumerable<Paragraph>>("api/wiki");
-        }
-
         public async Task<Character?> PostAsync(Character character)
         {
             var response = await _httpClient.PostAsJsonAsync("api/characters", character);
@@ -47,6 +37,16 @@ namespace Wiki.App.Services
         public async Task<bool> RemoveAsync(int id)
         {
             return (await _httpClient.DeleteAsync($"api/characters/{id}")).IsSuccessStatusCode;
+        }
+
+        public Task<Paragraph> GetParagraphByIdAsync(int? Id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<IEnumerable<Paragraph>> GetParagraphsAsync()
+        {
+            return await _httpClient.GetFromJsonAsync<IEnumerable<Paragraph>>("api/wiki");
         }
     }
 }

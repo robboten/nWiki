@@ -16,11 +16,13 @@ internal class SeedData
 
         jsonData = System.IO.File.ReadAllText(@"Data/SeedDataText.json");
 
+        var options = new Newtonsoft.Json.JsonSerializerSettings{  Formatting = Formatting.Indented };
+
         List<TextBlock>? textblocks = JsonConvert.DeserializeObject<List<TextBlock>>(jsonData);
 
-        wikiApiContext.AddRange(characters);
-        wikiApiContext.AddRange(textblocks);
-        wikiApiContext.SaveChanges();
+        await wikiApiContext.AddRangeAsync(characters);
+        await wikiApiContext.AddRangeAsync(textblocks);
+        await wikiApiContext.SaveChangesAsync();
     }
 
 
