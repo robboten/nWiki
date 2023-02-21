@@ -18,7 +18,7 @@
 
 <EditForm EditContext="editContext" OnValidSubmit="OnSave">
     <InputText @bind-Value="firstParagraph.Header" class="form-control" id="header" placeholder="Header"></InputText>
-    <Editor Field="() => firstParagraph.Body" @bind-Value="firstParagraph.Body" />
+    <Editor ApiKey="@_apikey" Conf="@_conf" Field="() => firstParagraph.Body" @bind-Value="firstParagraph.Body" />
     <button type="submit" id="addItemBtn" class="btn btn-primary">Add</button>
 </EditForm>
 
@@ -35,6 +35,14 @@
     private IEnumerable<Paragraph> paragraphs = new List<Paragraph>();
 
     private Paragraph firstParagraph { get; set; } = new Paragraph();
+
+    private readonly string _apikey = "no-api-key";
+    private Dictionary<string, object> _conf = new Dictionary<string, object> {
+     { "height", 500},
+     { "toolbar", "undo redo | a11ycheck casechange blocks | bold italic forecolor backcolor | link | alignleft aligncenter alignright alignjustify | bullist numlist checklist outdent indent | removeformat | code"},
+     { "plugins", "advlist lists link image anchor code"},
+
+   };
 
     [Inject]
     public IWikiClient wikiClient { get; set; } = default!;
