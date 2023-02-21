@@ -81,5 +81,10 @@ namespace Wiki.App.Services
         {
             throw new NotImplementedException();
         }
+
+        public Task<bool> PutParagraphAsync(Paragraph paragraph)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

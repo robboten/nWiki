@@ -12,5 +12,7 @@ namespace Wiki.App.Services
         Task<Character> PostAsync(Character character);
         Task<Character> Remove(Character character);
         public Task<bool> RemoveAsync(int id);
+
+        public Task<bool> PutParagraphAsync(Paragraph paragraph);
     }
 }

@@ -44,6 +44,11 @@ namespace Wiki.App.Services
             throw new NotImplementedException();
         }
 
+        public async Task<bool> PutParagraphAsync(Paragraph paragraph)
+        {
+            return (await _httpClient.PutAsJsonAsync($"api/wiki/{paragraph.Id}", paragraph)).IsSuccessStatusCode;
+        }
+
         public async Task<IEnumerable<Paragraph>> GetParagraphsAsync()
         {
             return await _httpClient.GetFromJsonAsync<IEnumerable<Paragraph>>("api/wiki");
