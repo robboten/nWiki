@@ -1,5 +1,6 @@
 ﻿@page "/"
 @using Wiki.App.Services;
+@using TinyMCE.Blazor
 
 <PageTitle>Wiki</PageTitle>
 <div class="container">
@@ -10,9 +11,16 @@
             {
                 <TextBlock Header="@paragraph.Header" Body="@paragraph.Body"></TextBlock>
             }
+            <TextBlock Header="@firstParagraph.Header" Body="@firstParagraph.Body"></TextBlock>
         </div>
-    </div> 
+    </div>
 </div>
+
+<EditForm EditContext="editContext" OnValidSubmit="OnSave">
+    <InputText @bind-Value="firstParagraph.Header" class="form-control" id="header" placeholder="Header"></InputText>
+    <Editor Field="() => firstParagraph.Body" @bind-Value="firstParagraph.Body" />
+    <button type="submit" id="addItemBtn" class="btn btn-primary">Add</button>
+</EditForm>
 
 
 @code {
@@ -20,14 +28,57 @@
     [Parameter]
     public int Id { get; set; }
 
+    private string content { get; set; } = string.Empty;
+
+    private EditContext editContext = default!;
+
     private IEnumerable<Paragraph> paragraphs = new List<Paragraph>();
+
+    private Paragraph firstParagraph { get; set; } = new Paragraph();
 
     [Inject]
     public IWikiClient wikiClient { get; set; } = default!;
 
+    protected override void OnInitialized()
+    {
+        editContext = new EditContext(content);
+    }
+
+
     protected override async Task OnInitializedAsync()
     {
         paragraphs = await wikiClient.GetParagraphsAsync();
+        content = (await wikiClient.GetParagraphsAsync()).FirstOrDefault().Body;
+        firstParagraph=(await wikiClient.GetParagraphsAsync()).FirstOrDefault();
     }
+
+    public async Task OnSave()
+    {
+        Console.WriteLine(content);
+        if (firstParagraph is null)
+        {
+            throw new ArgumentNullException(nameof(firstParagraph));
+        }
+        var item = await wikiClient.PutParagraphAsync(firstParagraph);
+        //await AddItem.InvokeAsync(content);
+
+    }
+
+    //private async Task AddItem(Paragraph paragraph)
+    //{
+    //    if (paragraph is null)
+    //    {
+    //        throw new ArgumentNullException(nameof(paragraph));
+    //    }
+
+    //    var item = await wikiClient.PostAsync(paragraph);
+
+    //    //if (item is null)
+    //    //    throw new ArgumentNullException(nameof(item));
+
+    //    //characters.Add(item);
+    //}
+
+
 
 }

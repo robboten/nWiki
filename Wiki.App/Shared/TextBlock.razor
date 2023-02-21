@@ -1,6 +1,6 @@
 ﻿<h3>@Header</h3>
 <p>
-    @Body
+    @markupString
 </p>
 
 @code{
@@ -8,4 +8,14 @@
     public string Header { get; set; } = string.Empty;
     [Parameter]
     public string Body { get; set; } = string.Empty;
+
+    public MarkupString markupString { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        // Required Markdig https://www.nuget.org/packages/Markdig/
+        var html = Body;
+        markupString = (MarkupString)html; // or new MarkupString(html)
+    }
+
 }

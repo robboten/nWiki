@@ -17,7 +17,7 @@ namespace Wiki.Api.Controllers
             _context = context;
         }
 
-        //GET: api/Paragraphs
+        //GET: api/wiki
        [HttpGet]
         public async Task<ActionResult<IEnumerable<TextBlock>>> GetAsync()
         {
@@ -26,6 +26,41 @@ namespace Wiki.Api.Controllers
                 return NotFound();
             }
             return await _context.TextBlock.ToListAsync();
+        }
+
+        // PUT: api/wiki/5
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutAsync(int id, TextBlock textBlock)
+        {
+            if (id != textBlock.Id)
+            {
+                return BadRequest();
+            }
+
+            _context.Entry(textBlock).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!WikiExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
+        }
+        private bool WikiExists(int id)
+        {
+            return (_context.TextBlock?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }
