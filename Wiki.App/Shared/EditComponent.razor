@@ -1,0 +1,42 @@
+﻿@using Wiki.App.Services;
+@using TinyMCE.Blazor
+
+<EditForm EditContext="editContext" OnValidSubmit="OnSave">
+    <InputText @bind-Value="selectedItem.Header" class="form-control" id="header" placeholder="Header"></InputText>
+    <Editor ApiKey="@_apikey" Conf="@_conf" Field="() => selectedItem.Body" @bind-Value="selectedItem.Body" />
+    <button type="submit" id="addItemBtn" class="btn btn-primary">Save</button>
+</EditForm>
+
+@code {
+    [Parameter]
+    public Paragraph selectedItem { get; set; } = new Paragraph();
+   
+    [Inject]
+    public IWikiClient wikiClient { get; set; } = default!;
+
+    //editcontext
+    private EditContext editContext = default!;
+
+    protected override void OnInitialized()
+    {
+        editContext = new EditContext(selectedItem);
+    }
+
+    public async Task OnSave()
+    {
+        if (selectedItem is null)
+        {
+            throw new ArgumentNullException(nameof(selectedItem));
+        }
+        var item = await wikiClient.PutParagraphAsync(selectedItem);
+    }
+
+    //tinymce
+    private readonly string _apikey = "no-api-key";
+    private Dictionary<string, object> _conf = new Dictionary<string, object> {
+     { "height", 500},
+     { "toolbar", "undo redo | a11ycheck casechange blocks | bold italic forecolor backcolor | link | alignleft aligncenter alignright alignjustify | bullist numlist checklist outdent indent | removeformat | code"},
+     { "plugins", "advlist lists link image anchor code"},
+
+   };
+}

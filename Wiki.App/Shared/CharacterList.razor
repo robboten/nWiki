@@ -2,11 +2,10 @@
 @using Wiki.App.Services;
 @inject IWikiClient wikiClient
 
-<h3>CharacterList</h3>
-<input type="text" class="input-group-text" />
+
 
 <table class="table table-light">
-    <thead class="table-primary">
+    <thead class="table-secondary">
         <tr>
             <th>Name</th>
             <th>ID</th>
@@ -37,6 +36,7 @@
                 </td>
                 <td>
                     <button @onclick="async () => await Delete(c)" @onclick:stopPropagation="true" class="btn btn-danger">Delete</button>
+                    <button @onclick="async () => await Delete(c)" @onclick:stopPropagation="true" class="btn btn-danger">Edit</button>
                 </td>
             </tr>
         }
@@ -46,6 +46,7 @@
 @code {
     [Parameter]
     public List<Character> characters { get; set; } = new List<Character>();
+
     DateTimeFormatInfo myDTFI = new CultureInfo("sv-SE", false).DateTimeFormat;
 
     private async Task Delete(Character character)

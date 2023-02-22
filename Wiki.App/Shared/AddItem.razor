@@ -1,31 +1,52 @@
-﻿<h3>Add Character</h3>
+﻿@using Wiki.App.Services;
+@using TinyMCE.Blazor
+
+<h3>Add Character</h3>
 <div class="row">
-    <div class="col-4">
-        <div class="input-group mb-3 col-4">
+    <div class="col">
+        <div class="input-group mb-3">
             <EditForm EditContext="editContext" OnValidSubmit="OnAddCharacter">
                 <DataAnnotationsValidator />
                 <ValidationSummary />
-                <InputText @bind-Value="character.Name" class="form-control" id="name" placeholder="Name"></InputText>
-                <InputDate @bind-Value="character.Birthday" class="form-control" id="birthday"></InputDate>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="label-name">Name:</span>
+                    <InputText @bind-Value="character.Name" class="form-control" id="name" placeholder="Name"></InputText>
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="label-bd">Birthdate:</span>
+                    <InputDate @bind-Value="character.Birthday" class="form-control" id="birthday"></InputDate>
+                </div>
                 @*<InputText @bind-Value="character.Status" class="form-control" id="status" placeholder="Status"></InputText>*@
-                   
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="label-status">Status:</span>
                     <InputSelect class="form-select" @bind-Value="character.Status">
-                    <option selected>Select Status:</option>
-                        <option value="alive">Alive</option>
-                        <option value="dead">Dead</option>
+                        <option value="Alive">Alive</option>
+                        <option value="Dead">Dead</option>
                         <option value="unknown">Unknown</option>
                     </InputSelect>
-
-
-                <InputTextArea @bind-Value="character.Quote" class="form-control" id="quote" placeholder="Quote"></InputTextArea>
-                <InputText @bind-Value="character.PortraitUrl" class="form-control" id="portraitUrl" placeholder="Portrait Url"></InputText>
-                <InputTextArea @bind-Value="character.Text" class="form-control" id="text" placeholder="About text"></InputTextArea>
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="label-bd">Quote:</span>
+                    <InputTextArea @bind-Value="character.Quote" class="form-control" id="quote" placeholder="Quote"></InputTextArea>
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="label-portraiturl">Portrait url:</span>
+                    <InputText @bind-Value="character.PortraitUrl" class="form-control" id="portraitUrl" placeholder="https://"></InputText>
+                </div>
+                <div class="input-group mb-3">
+@*                    <span class="input-group-text" id="label-about">About:</span>*@
+                    <Editor ApiKey="@_apikey" Conf="@_conf" Field="() => character.Text" @bind-Value="character.Text" />
+@*                    <InputTextArea @bind-Value="character.Text" class="form-control" id="text" placeholder="About text"></InputTextArea>*@
+                </div>
                 <button type="submit" id="addItemBtn" class="btn btn-primary">Add</button>
             </EditForm>
         </div>
     </div>
 </div>
 @code {
+    [Inject]
+    public IWikiClient wikiClient { get; set; } = default!;
+
     [Parameter]
     public EventCallback<Character> AddCharacter { get; set; }
 
@@ -43,4 +64,21 @@
         await AddCharacter.InvokeAsync(character);
 
     }
+
+    public async Task OnSave()
+    {
+        if (character is null)
+        {
+            throw new ArgumentNullException(nameof(character));
+        }
+        var item = await wikiClient.PutAsync(character);
+    }
+
+    //tinymce
+    private readonly string _apikey = "no-api-key";
+    private Dictionary<string, object> _conf = new Dictionary<string, object> {
+     { "toolbar", "undo redo | a11ycheck casechange blocks | bold italic forecolor backcolor | link | alignleft aligncenter alignright alignjustify | bullist numlist checklist outdent indent | removeformat | code"},
+     { "plugins", "advlist lists link image anchor code"},
+
+   };
 }

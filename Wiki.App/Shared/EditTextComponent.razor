@@ -1,0 +1,50 @@
+﻿@using Wiki.App.Services;
+@using TinyMCE.Blazor
+
+<EditForm EditContext="editContext">
+    <InputSelect @bind-Value=selectItemId class="form-control">
+        @foreach (Paragraph paragraph in paragraphs)
+        {
+                <option value="@paragraph.Id">@paragraph.Header</option>
+        }
+    </InputSelect>
+</EditForm>
+
+<EditComponent selectedItem="selectedItem"></EditComponent>
+
+@code {
+    private IEnumerable<Paragraph> paragraphs = new List<Paragraph>();
+    private Paragraph selectedItem = new Paragraph();
+    private int selectItemId;
+
+    [Inject]
+    public IWikiClient wikiClient { get; set; } = default!;
+
+    protected override void OnInitialized()
+    {
+        editContext = new EditContext(selectedItem);
+        editContext.OnFieldChanged += EditContext_OnFieldChanged;
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        paragraphs = await wikiClient.GetParagraphsAsync();
+        selectedItem = paragraphs.FirstOrDefault();
+    }
+
+    //editcontext
+    private EditContext editContext = default!;
+
+    private void EditContext_OnFieldChanged(object sender, FieldChangedEventArgs e)
+    {
+        var getSel = paragraphs.FirstOrDefault(p => p.Id == selectItemId);
+        if (getSel != null)
+            selectedItem = getSel;
+        StateHasChanged();
+    }
+
+    public async Task editItem(Paragraph paragraph)
+    {
+        selectedItem = paragraph;
+    }
+}

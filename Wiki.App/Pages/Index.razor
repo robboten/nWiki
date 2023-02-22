@@ -1,6 +1,6 @@
 ﻿@page "/"
 @using Wiki.App.Services;
-@using TinyMCE.Blazor
+
 
 <PageTitle>Wiki</PageTitle>
 <div class="container">
@@ -10,83 +10,24 @@
             @foreach (Paragraph paragraph in paragraphs)
             {
                 <TextBlock Header="@paragraph.Header" Body="@paragraph.Body"></TextBlock>
+               @* <button @onclick="async () => await editItem(paragraph)" class="btn btn-primary">Edit</button>*@
+                <NavLink class="nav-link" href=@($"admintext/{@paragraph.Id}")>Edit</NavLink>
             }
-            <TextBlock Header="@firstParagraph.Header" Body="@firstParagraph.Body"></TextBlock>
         </div>
     </div>
 </div>
 
-<EditForm EditContext="editContext" OnValidSubmit="OnSave">
-    <InputText @bind-Value="firstParagraph.Header" class="form-control" id="header" placeholder="Header"></InputText>
-    <Editor ApiKey="@_apikey" Conf="@_conf" Field="() => firstParagraph.Body" @bind-Value="firstParagraph.Body" />
-    <button type="submit" id="addItemBtn" class="btn btn-primary">Add</button>
-</EditForm>
-
 
 @code {
-
-    [Parameter]
-    public int Id { get; set; }
-
-    private string content { get; set; } = string.Empty;
-
-    private EditContext editContext = default!;
-
     private IEnumerable<Paragraph> paragraphs = new List<Paragraph>();
 
-    private Paragraph firstParagraph { get; set; } = new Paragraph();
-
-    private readonly string _apikey = "no-api-key";
-    private Dictionary<string, object> _conf = new Dictionary<string, object> {
-     { "height", 500},
-     { "toolbar", "undo redo | a11ycheck casechange blocks | bold italic forecolor backcolor | link | alignleft aligncenter alignright alignjustify | bullist numlist checklist outdent indent | removeformat | code"},
-     { "plugins", "advlist lists link image anchor code"},
-
-   };
 
     [Inject]
     public IWikiClient wikiClient { get; set; } = default!;
 
-    protected override void OnInitialized()
-    {
-        editContext = new EditContext(content);
-    }
-
-
     protected override async Task OnInitializedAsync()
     {
         paragraphs = await wikiClient.GetParagraphsAsync();
-        content = (await wikiClient.GetParagraphsAsync()).FirstOrDefault().Body;
-        firstParagraph=(await wikiClient.GetParagraphsAsync()).FirstOrDefault();
-    }
-
-    public async Task OnSave()
-    {
-        Console.WriteLine(content);
-        if (firstParagraph is null)
-        {
-            throw new ArgumentNullException(nameof(firstParagraph));
-        }
-        var item = await wikiClient.PutParagraphAsync(firstParagraph);
-        //await AddItem.InvokeAsync(content);
 
     }
-
-    //private async Task AddItem(Paragraph paragraph)
-    //{
-    //    if (paragraph is null)
-    //    {
-    //        throw new ArgumentNullException(nameof(paragraph));
-    //    }
-
-    //    var item = await wikiClient.PostAsync(paragraph);
-
-    //    //if (item is null)
-    //    //    throw new ArgumentNullException(nameof(item));
-
-    //    //characters.Add(item);
-    //}
-
-
-
 }

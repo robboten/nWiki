@@ -4,7 +4,7 @@
         <div class="col-9">
             <QuoteCard text="@character.Quote" source="@character.Name"></QuoteCard>
             <p>
-                @character.Text
+                @markupString
             </p>
         </div>
         <div class="col-3">
@@ -54,4 +54,12 @@
     public Character? character { get; set; } = new Character();
     [Parameter]
     public List<Paragraph> paragraphs { get; set; } = new List<Paragraph>();
+
+    public MarkupString markupString { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        var html = character.Text;
+        markupString = (MarkupString)html; // or new MarkupString(html)
+    }
 }

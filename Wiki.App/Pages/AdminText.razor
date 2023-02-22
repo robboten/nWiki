@@ -1,0 +1,66 @@
+﻿@page "/admintext/{Id:int?}"
+@layout AdminLayout
+
+@using Wiki.App.Services;
+@using TinyMCE.Blazor
+
+<h3>Admin Text</h3>
+
+@* dropdown with available texts *@
+<EditForm EditContext="editContext">
+    <InputSelect @bind-Value=selectItemId class="form-control">
+        @foreach (Paragraph paragraph in paragraphs)
+        {
+            <option value="@paragraph.Id">@paragraph.Header</option>
+        }
+    </InputSelect>
+</EditForm>
+
+@* edit component for selected item *@
+<EditComponent selectedItem="selectedItem"></EditComponent>
+
+@code {
+    [Parameter]
+    public int? Id { get; set; }
+
+    private IEnumerable<Paragraph> paragraphs = new List<Paragraph>();
+    private Paragraph selectedItem = new Paragraph();
+    private int selectItemId;
+
+    [Inject]
+    public IWikiClient wikiClient { get; set; } = default!;
+
+    //editcontext
+    private EditContext editContext = default!;
+
+
+    protected override void OnInitialized()
+    {
+        editContext = new EditContext(selectedItem);
+        editContext.OnFieldChanged += EditContext_OnFieldChanged;
+    }
+
+    private void EditContext_OnFieldChanged(object sender, FieldChangedEventArgs e)
+    {
+        var getSel = paragraphs.FirstOrDefault(p => p.Id == selectItemId);
+        if (getSel != null)
+            selectedItem = getSel;
+        StateHasChanged();
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        paragraphs = await wikiClient.GetParagraphsAsync();
+
+        if (Id != null)
+        {
+            selectedItem = paragraphs.FirstOrDefault(p => p.Id == Id);
+            
+        }
+        if (String.IsNullOrEmpty(selectedItem.Header))
+        {
+            selectedItem = paragraphs.FirstOrDefault();
+        }
+        
+    }
+}

@@ -29,6 +29,11 @@ namespace Wiki.App.Services
             return response.IsSuccessStatusCode ? await response.Content.ReadFromJsonAsync<Character>() : null;
         }
 
+        public async Task<bool> PutAsync(Character character)
+        {
+            return (await _httpClient.PutAsJsonAsync($"api/characters/{character.Id}", character)).IsSuccessStatusCode;
+        }
+
         public Task<Character> Remove(Character character)
         {
             throw new NotImplementedException();

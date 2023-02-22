@@ -1,23 +1,7 @@
-﻿@page "/admin"
-@layout AdminLayout
-@using Wiki.App.Services;
-
-<h3>Characters</h3>
-
-<div class="input-group mb-3">
-    <input type="text" class="form-control" placeholder="Search..." />
-    <button class="btn btn-outline-secondary" @onclick="ShowComponentEvent">Search</button>
-    <button class="btn btn-secondary" @onclick="ShowComponentEvent">New</button>
-</div>
-@if (ShowComponent)
-{
-    <AddItem AddCharacter="AddItem"></AddItem>
-}
-
+﻿@using Wiki.App.Services;
 
 <CharacterList characters="characters"></CharacterList>
-
-
+<AddItem AddCharacter="AddItem"></AddItem>
 
 @code {
     private List<Character> characters = new List<Character>();
@@ -45,21 +29,6 @@
             throw new ArgumentNullException(nameof(item));
 
         characters.Add(item);
-    }
-
-    bool ShowComponent { get; set; }
-
-    private async Task ShowComponentEvent()
-    {
-        if (ShowComponent)
-        {
-            ShowComponent = false;
-        }
-        else
-        {
-            ShowComponent = true;
-        }
-
     }
 
 

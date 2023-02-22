@@ -1,0 +1,59 @@
+﻿@using Wiki.App.Services;
+@using TinyMCE.Blazor
+
+<EditForm EditContext="editContext" OnValidSubmit="OnSave">
+    <InputText @bind-Value="selectedItem.Name" class="form-control" id="name" placeholder="Name"></InputText>
+    <Editor ApiKey="@_apikey" Conf="@_conf" Field="() => selectedItem.Text" @bind-Value="selectedItem.Text" />
+    <button type="submit" id="addItemBtn" class="btn btn-primary">Save</button>
+</EditForm>
+
+@code {
+    private IEnumerable<Character> characters = new List<Character>();
+    private Character selectedItem { get; set; } = new Character();
+
+    [Inject]
+    public IWikiClient wikiClient { get; set; } = default!;
+
+    protected override async Task OnInitializedAsync()
+    {
+        characters = await wikiClient.GetCharactersAsync();
+        if (characters is null)
+        {
+            throw new ArgumentNullException(nameof(characters));
+        }
+
+        selectedItem = characters.FirstOrDefault()!;
+
+        if (selectedItem is null)
+        {
+            throw new ArgumentNullException(nameof(selectedItem));
+        }
+    }
+
+    //editcontext
+    private EditContext editContext = default!;
+
+    protected override void OnInitialized()
+    {
+        editContext = new EditContext(selectedItem);
+    }
+
+    public async Task OnSave()
+    {
+        if (selectedItem is null)
+        {
+            throw new ArgumentNullException(nameof(selectedItem));
+        }
+        var item = await wikiClient.PutAsync(selectedItem);
+    }
+
+
+    //tinymce
+    private readonly string _apikey = "no-api-key";
+    private Dictionary<string, object> _conf = new Dictionary<string, object> {
+     { "height", 500},
+     { "toolbar", "undo redo | a11ycheck casechange blocks | bold italic forecolor backcolor | link | alignleft aligncenter alignright alignjustify | bullist numlist checklist outdent indent | removeformat | code"},
+     { "plugins", "advlist lists link image anchor code"},
+
+   };
+}
