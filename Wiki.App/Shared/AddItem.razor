@@ -8,37 +8,37 @@
             <EditForm EditContext="editContext" OnValidSubmit="OnAddCharacter">
                 <DataAnnotationsValidator />
                 <ValidationSummary />
+                    <input type="hidden" @bind-value="Character.Id" id="id" />
                 <div class="input-group mb-3">
                     <span class="input-group-text" id="label-name">Name:</span>
-                    <InputText @bind-Value="character.Name" class="form-control" id="name" placeholder="Name"></InputText>
+                    <InputText @bind-Value="Character.Name" class="form-control" id="name" placeholder="Name"></InputText>
                 </div>
                 <div class="input-group mb-3">
                     <span class="input-group-text" id="label-bd">Birthdate:</span>
-                    <InputDate @bind-Value="character.Birthday" class="form-control" id="birthday"></InputDate>
+                    <InputDate @bind-Value="Character.Birthday" class="form-control" id="birthday"></InputDate>
                 </div>
-                @*<InputText @bind-Value="character.Status" class="form-control" id="status" placeholder="Status"></InputText>*@
+                @*<InputText @bind-Value="Character.Status" class="form-control" id="status" placeholder="Status"></InputText>*@
                 <div class="input-group mb-3">
                     <span class="input-group-text" id="label-status">Status:</span>
-                    <InputSelect class="form-select" @bind-Value="character.Status">
+                    <InputSelect class="form-select" @bind-Value="Character.Status">
                         <option value="Alive">Alive</option>
                         <option value="Dead">Dead</option>
-                        <option value="unknown">Unknown</option>
+                        <option value="Unknown">Unknown</option>
                     </InputSelect>
                 </div>
                 <div class="input-group mb-3">
                     <span class="input-group-text" id="label-bd">Quote:</span>
-                    <InputTextArea @bind-Value="character.Quote" class="form-control" id="quote" placeholder="Quote"></InputTextArea>
+                    <InputTextArea @bind-Value="Character.Quote" class="form-control" id="quote" placeholder="Quote"></InputTextArea>
                 </div>
                 <div class="input-group mb-3">
                     <span class="input-group-text" id="label-portraiturl">Portrait url:</span>
-                    <InputText @bind-Value="character.PortraitUrl" class="form-control" id="portraitUrl" placeholder="https://"></InputText>
+                    <InputText @bind-Value="Character.PortraitUrl" class="form-control" id="portraitUrl" placeholder="https://"></InputText>
                 </div>
                 <div class="input-group mb-3">
-@*                    <span class="input-group-text" id="label-about">About:</span>*@
-                    <Editor ApiKey="@_apikey" Conf="@_conf" Field="() => character.Text" @bind-Value="character.Text" />
-@*                    <InputTextArea @bind-Value="character.Text" class="form-control" id="text" placeholder="About text"></InputTextArea>*@
+                    <Editor ApiKey="@_apikey" Conf="@_conf" Field="() => Character.Text" @bind-Value="Character.Text" />
                 </div>
-                <button type="submit" id="addItemBtn" class="btn btn-primary">Add</button>
+                <button type="submit" id="addItemBtn" class="btn btn-primary">Save</button>
+
             </EditForm>
         </div>
     </div>
@@ -50,28 +50,32 @@
     [Parameter]
     public EventCallback<Character> AddCharacter { get; set; }
 
-    private Character character = new Character();
+    [Parameter]
+    public Character? Character { get; set; }
+
     private EditContext editContext = default!;
 
     protected override void OnInitialized()
     {
-        editContext = new EditContext(character);
-        character.Birthday = DateTime.Now.AddYears(-20);
+        if (Character == null)
+            Character = new Character();
+
+        editContext = new EditContext(Character);
+        Character.Birthday = DateTime.Now.AddYears(-20);
     }
 
     public async Task OnAddCharacter()
     {
-        await AddCharacter.InvokeAsync(character);
-
+        await AddCharacter.InvokeAsync(Character);
     }
 
     public async Task OnSave()
     {
-        if (character is null)
+        if (Character is null)
         {
-            throw new ArgumentNullException(nameof(character));
+            throw new ArgumentNullException(nameof(Character));
         }
-        var item = await wikiClient.PutAsync(character);
+        var item = await wikiClient.PutAsync(Character);
     }
 
     //tinymce

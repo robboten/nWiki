@@ -31,7 +31,8 @@ namespace Wiki.App.Services
 
         public async Task<bool> PutAsync(Character character)
         {
-            return (await _httpClient.PutAsJsonAsync($"api/characters/{character.Id}", character)).IsSuccessStatusCode;
+            var temp = await _httpClient.PutAsJsonAsync($"api/characters/{character.Id}", character);
+            return temp.IsSuccessStatusCode;
         }
 
         public Task<Character> Remove(Character character)

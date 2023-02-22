@@ -36,7 +36,7 @@
                 </td>
                 <td>
                     <button @onclick="async () => await Delete(c)" @onclick:stopPropagation="true" class="btn btn-danger">Delete</button>
-                    <button @onclick="async () => await Delete(c)" @onclick:stopPropagation="true" class="btn btn-danger">Edit</button>
+                    <button @onclick="async () => await OnEditCharacter(c.Id)" class="btn btn-primary">Edit</button>
                 </td>
             </tr>
         }
@@ -47,7 +47,16 @@
     [Parameter]
     public List<Character> characters { get; set; } = new List<Character>();
 
+    [Parameter]
+    public EventCallback<int> EditCharacterEvent { get; set; }
+
     DateTimeFormatInfo myDTFI = new CultureInfo("sv-SE", false).DateTimeFormat;
+
+    public async Task OnEditCharacter(int Id)
+    {
+        await EditCharacterEvent.InvokeAsync(Id);
+
+    }
 
     private async Task Delete(Character character)
     {

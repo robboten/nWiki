@@ -1,0 +1,96 @@
+﻿@page "/admin/"
+@layout AdminLayout
+@using Wiki.App.Services;
+
+<h3>Characters</h3>
+
+<div class="input-group mb-3">
+    <input type="text" class="form-control" placeholder="Search..." />
+    <button class="btn btn-outline-secondary">Search</button>
+    <button class="btn btn-secondary" @onclick="NewEvent">New</button>
+
+
+</div>
+@if (ShowComponent)
+{
+    <AddItem AddCharacter="AddItem" Character="EditCharacter"></AddItem>
+    <button class="btn btn-secondary" @onclick="ShowComponentEvent">Close</button>
+}
+
+<CharacterList EditCharacterEvent="EditEvent" characters="characters"></CharacterList>
+
+@code {
+    private List<Character> characters = new List<Character>();
+    private Character? EditCharacter =new Character();
+
+
+    [Inject]
+    public IWikiClient wikiClient { get; set; } = default!;
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        var res = await wikiClient.GetCharactersAsync();
+        if (res is not null)
+            characters = res.ToList();
+    }
+
+    private async Task AddItem(Character character)
+    {
+        if (character is null)
+        {
+            throw new ArgumentNullException(nameof(character));
+        }
+        if (character.Id == 0)
+        {
+            var item = await wikiClient.PostAsync(character);
+
+            if (item==null)
+                throw new ArgumentNullException(nameof(item));
+
+            characters.Add(item);
+        } else
+        {
+            var item = await wikiClient.PutAsync(character);
+
+            if (!item)
+                throw new ArgumentNullException(nameof(item));
+            //update shown list? add a saved feedback?
+        }
+
+
+        
+    }
+
+    bool ShowComponent { get; set; }
+
+    private async Task ShowComponentEvent()
+    {
+
+        if (ShowComponent)
+        {
+            ShowComponent = false;
+        }
+        else
+        {
+            ShowComponent = true;
+        }
+    }
+
+    private async Task NewEvent()
+    {
+        EditCharacter = new Character();
+        ShowComponent = true;
+    }
+
+    private async Task EditEvent(int Id)
+    {
+            EditCharacter = await wikiClient.GetCharacterByIdAsync(Id);
+            ShowComponent = true;
+    }
+
+
+}
+
+
+

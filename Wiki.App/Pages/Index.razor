@@ -11,7 +11,7 @@
             {
                 <TextBlock Header="@paragraph.Header" Body="@paragraph.Body"></TextBlock>
                @* <button @onclick="async () => await editItem(paragraph)" class="btn btn-primary">Edit</button>*@
-                <NavLink class="nav-link" href=@($"admintext/{@paragraph.Id}")>Edit</NavLink>
+                <NavLink class="nav-link" href=@($"editpost/{@paragraph.Id}")>Edit</NavLink>
             }
         </div>
     </div>
