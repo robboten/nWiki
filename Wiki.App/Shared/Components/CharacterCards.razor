@@ -1,0 +1,21 @@
+﻿<h2>Characters</h2>
+
+<div class="row row-cols-1 row-cols-md-2 g-4">
+    @foreach (Character c in Characters)
+    {
+        <div class="col">
+            <div class="card h-100">
+                <img src="@c.PortraitUrl" class="card-img-top min-vh-25" alt="@c.Name">
+                <div class="card-body">
+                    <h5 class="card-title"><a href=@($"characterpage/{c.Id}") class="stretched-link text-decoration-none text-reset">@c.Name</a></h5>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter]
+    public IEnumerable<Character> Characters { get; set; } = new List<Character>();
+
+}

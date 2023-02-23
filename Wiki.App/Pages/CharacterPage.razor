@@ -1,0 +1,51 @@
+﻿@page "/characterpage/{Id:int}"
+@using Wiki.App.Services;
+
+<PageTitle>@Character.Name</PageTitle>
+
+<div class="container">
+    <div class="row"><h1>@Character.Name</h1></div>
+    <div class="row">
+        <div class="col-9">
+            <QuoteCard text="@Character.Quote" source="@Character.Name"></QuoteCard>
+            <p>
+                @markupString
+            </p>
+        </div>
+        <div class="col-3">
+            <div class="card h-auto w-auto">
+                <img src="@Character.PortraitUrl" class="card-img-top border-bottom" alt="Picture of Name">
+                <div class="card-body">
+                    <h4 class="card-title">@Character.Name</h4>
+                    <h5 class="card-title">Basic Info</h5>
+                    <InfoRow label="Age" dataValue="@Character.Age.ToString()"></InfoRow>
+                    <InfoRow label="Status" dataValue="@Character.Status"></InfoRow>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+
+    [Parameter]
+    public int Id { get; set; }
+
+    private Character Character { get; set; } = new Character();
+
+    [Inject]
+    public IWikiClient wikiClient { get; set; } = default!;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Character = await wikiClient.GetCharacterByIdAsync(Id);
+    }
+
+    private MarkupString markupString;
+
+    protected override void OnParametersSet()
+    {
+        var html = Character.Text;
+        markupString = (MarkupString)html; // or new MarkupString(html)
+    }
+}

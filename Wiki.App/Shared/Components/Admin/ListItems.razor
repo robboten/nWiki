@@ -2,14 +2,11 @@
 @using Wiki.App.Services;
 @inject IWikiClient wikiClient
 
-
-
-<table class="table table-light">
-    <thead class="table-secondary">
+<table class="table">
+    <thead class="table-light">
         <tr>
             <th>Name</th>
             <th>ID</th>
-            <th>Age</th>
             <th>Created</th>
             <th>Updated</th>
             <th></th>
@@ -20,23 +17,20 @@
         {
             <tr>
                 <td>
-                    <NavLink class="nav-link" href=@($"entity/{c.Id}")>@c.Name</NavLink>
+                    <NavLink class="nav-link" href=@($"characterpage/{c.Id}")>@c.Name</NavLink>
                 </td>
                 <td>
                     @c.Id
                 </td>
                 <td>
-                    @c.Age
-                </td>
-                <td>
                     @c.Created.ToString("yyyy-MM-dd H:mm:ss")
                 </td>
                 <td>
-                    @(c.Updated == DateTime.MinValue ? "-" : c.Updated)
+                    @(c.Updated == DateTime.MinValue ? "-" : c.Updated.ToString("yyyy-MM-dd H:mm:ss"))
                 </td>
-                <td>
+                <td class="d-flex justify-content-end">
                     <button @onclick="async () => await Delete(c)" @onclick:stopPropagation="true" class="btn btn-danger">Delete</button>
-                    <button @onclick="async () => await OnEditCharacter(c.Id)" class="btn btn-primary">Edit</button>
+                    <button @onclick="async () => await OnEditCharacter(c.Id)" class="btn btn-primary ms-2">Edit</button>
                 </td>
             </tr>
         }

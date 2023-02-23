@@ -3,6 +3,7 @@
 
 @using Wiki.App.Services;
 @using TinyMCE.Blazor
+@using Wiki.App.Shared.Layouts;
 
 <h3>Admin Text</h3>
 
@@ -17,7 +18,7 @@
 </EditForm>
 
 @* edit component for selected item *@
-<EditComponent selectedItem="selectedItem"></EditComponent>
+<EditText selectedItem="selectedItem"></EditText>
 
 @code {
     [Parameter]

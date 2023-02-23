@@ -1,26 +1,34 @@
-﻿@page "/"
+﻿@page "/{pagename?}"
 @using Wiki.App.Services;
+@inject NavigationManager MyNavigationManager
 
-
-<PageTitle>Wiki</PageTitle>
+<PageTitle>Wiki - @PageName</PageTitle>
 <div class="container">
-    <div class="row"><h1>Index</h1></div>
     <div class="row">
-        <div class="col">
-            @foreach (Paragraph paragraph in paragraphs)
-            {
-                <TextBlock Header="@paragraph.Header" Body="@paragraph.Body"></TextBlock>
-               @* <button @onclick="async () => await editItem(paragraph)" class="btn btn-primary">Edit</button>*@
-                <NavLink class="nav-link" href=@($"editpost/{@paragraph.Id}")>Edit</NavLink>
-            }
+        <div class="col-8 pe-4">
+            @markupString
         </div>
+        <div class="col  ms-4">
+            <CharacterCards Characters="characters"></CharacterCards>
+        </div>
+    </div>  
+    @*<div class="row">
+    <div class="col">
+    <CharacterCards Characters="characters"></CharacterCards>
     </div>
+    </div>*@
 </div>
 
 
 @code {
-    private IEnumerable<Paragraph> paragraphs = new List<Paragraph>();
+    [Parameter]
+    public string PageName { get; set; } = string.Empty;
 
+    private IEnumerable<Paragraph> paragraphs = new List<Paragraph>();
+    private IEnumerable<Character> characters = new List<Character>();
+
+    private Paragraph? currentParagraph = new Paragraph();
+    private MarkupString markupString;
 
     [Inject]
     public IWikiClient wikiClient { get; set; } = default!;
@@ -28,6 +36,26 @@
     protected override async Task OnInitializedAsync()
     {
         paragraphs = await wikiClient.GetParagraphsAsync();
+        characters = await wikiClient.GetCharactersAsync();
 
+        if(paragraphs==null || characters == null)
+        {
+            throw new ArgumentNullException();
+        }
+
+        //PageName = MyNavigationManager.ToBaseRelativePath(MyNavigationManager.Uri).Trim('/');
+
+        PageName = string.IsNullOrEmpty(PageName)
+        ? "home"
+        : PageName;
+
+        //currentParagraph = paragraphs.FirstOrDefault(p => p.Header.ToLower() == PageName.ToLower(), paragraphs.FirstOrDefault())!;
+        currentParagraph = paragraphs?.FirstOrDefault(p => p.Header.ToLower() == PageName.ToLower());
+
+        if (currentParagraph == null)
+            throw new ArgumentNullException(nameof(currentParagraph));
+
+        var html = currentParagraph.Body;
+        markupString = (MarkupString)html; // or new MarkupString(html)
     }
 }
