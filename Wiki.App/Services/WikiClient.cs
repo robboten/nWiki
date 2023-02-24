@@ -11,6 +11,7 @@ namespace Wiki.App.Services
         {
             _httpClient = httpClient;
             _httpClient.BaseAddress = new Uri("https://localhost:7123");
+            //_httpClient.BaseAddress = new Uri("http://localhost:7114/");
             _httpClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
         }
         public async Task<Character> GetCharacterByIdAsync(int? Id)

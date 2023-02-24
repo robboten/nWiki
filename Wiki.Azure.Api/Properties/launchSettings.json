@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "Wiki.Azure.Api": {
+      "commandName": "Project",
+      "commandLineArgs": "--port 7114",
+      "launchBrowser": false
+    }
+  }
+}
