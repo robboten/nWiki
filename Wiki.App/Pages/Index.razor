@@ -1,6 +1,6 @@
 ﻿@page "/"
 @using Wiki.App.Services;
-@inject NavigationManager MyNavigationManager
+@*@inject NavigationManager MyNavigationManager*@
 
 <PageTitle>Wiki - @Page</PageTitle>
 <div class="container">
@@ -18,7 +18,6 @@
     </div>
     </div>*@
 </div>
-
 
 @code {
     [Parameter]
@@ -43,12 +42,7 @@
         {
             throw new ArgumentNullException();
         }
-
-        //PageName = MyNavigationManager.ToBaseRelativePath(MyNavigationManager.Uri).Trim('/');
-
-        //GetCurrentParagraph();
     }
-
 
     protected override async Task OnParametersSetAsync()
     {
@@ -59,14 +53,10 @@
 
     private void GetCurrentParagraph()
     {
-
-        //PageName = MyNavigationManager.ToBaseRelativePath(MyNavigationManager.Uri).Trim('/');
-        //var PageQ = MyNavigationManager.GetUriWithQueryParameter("pagename", "Morena Baccarin");
         Page = string.IsNullOrEmpty(Page)
         ? "home"
         : Page;
 
-        //currentParagraph = paragraphs.FirstOrDefault(p => p.Header.ToLower() == PageName.ToLower(), paragraphs.FirstOrDefault())!;
         currentParagraph = paragraphs?.FirstOrDefault(p => p.Header.ToLower() == Page.ToLower());
 
         if (currentParagraph == null)
