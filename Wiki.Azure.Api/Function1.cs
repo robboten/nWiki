@@ -5,19 +5,18 @@ using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
 using System.Net;
+using System.Text.Json;
 
 namespace Wiki.Azure.Api
 {
     public class Functions
     {
         private readonly ILogger _logger;
-        private readonly TableServiceClient _tableServiceClient;
+        //private readonly TableServiceClient _tableServiceClient;
         public Functions(ILoggerFactory loggerFactory)
         {
             _logger = loggerFactory.CreateLogger<Functions>();
-            _tableServiceClient = new TableServiceClient(
-                new Uri("https://nwikiapp83f1.table.core.windows.net"),
-                new TableSharedKeyCredential("nwikiapp83f1", "BF8lcvP03t/Xsh1caNXGiL11svKb4srSxb5I8oq56NF2Q0CHOeiIXPfjUaNPmaNdCcQXZmnJWhhY+AStIFUXbw=="));
+
         }
 
         [Function("Function1")]
@@ -34,7 +33,28 @@ namespace Wiki.Azure.Api
         }
 
 
-        [Function("AddText")]
+        [Function("AddNewText")]
+        [TableOutput("MyTable", Connection = "WikiKeys")]
+        public static MyTableData AddNewText(
+           [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "wikia")] HttpRequestData req
+           )
+        {
+            var createdItem = JsonSerializer.Deserialize<MyTableData>(req.Body);
+
+            Console.WriteLine("dfdf"+createdItem.Text);
+            var tableData = 
+                new MyTableData()
+                {
+                    PartitionKey = "queue",
+                    RowKey = Guid.NewGuid().ToString(),
+                    Text = "blablahlkajdlkj lakdjf d",
+                };
+
+            return tableData;
+        }
+
+
+        [Function("TestText")]
         public async Task<HttpResponseData> Create(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = "wiki")] HttpRequestData req,
             [TableInput("MyTable", "queue", Connection = "WikiKeys")] IEnumerable<MyTableData> tableInput
@@ -72,7 +92,7 @@ namespace Wiki.Azure.Api
                     PartitionKey = t.PartitionKey,
                     RowKey =t.RowKey,
                     Text = t.Text,
-                    Timestamp = t.Timestamp,
+                    //Timestamp = t.Timestamp,
                 }
                 );
 
@@ -87,7 +107,8 @@ namespace Wiki.Azure.Api
 
             public string PartitionKey { get; set; }
             public string RowKey { get; set; }
-            public DateTimeOffset? Timestamp { get; set; }
+
+            public string ETag { get; } = "*";
 
         }
 
