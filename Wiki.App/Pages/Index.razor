@@ -1,8 +1,8 @@
-﻿@page "/{pagename?}"
+﻿@page "/"
 @using Wiki.App.Services;
 @inject NavigationManager MyNavigationManager
 
-<PageTitle>Wiki - @PageName</PageTitle>
+<PageTitle>Wiki - @Page</PageTitle>
 <div class="container">
     <div class="row">
         <div class="col-8 pe-4">
@@ -22,7 +22,8 @@
 
 @code {
     [Parameter]
-    public string PageName { get; set; } = string.Empty;
+    [SupplyParameterFromQuery]
+    public string Page { get; set; } = string.Empty;
 
     private IEnumerable<Paragraph> paragraphs = new List<Paragraph>();
     private IEnumerable<Character> characters = new List<Character>();
@@ -45,12 +46,28 @@
 
         //PageName = MyNavigationManager.ToBaseRelativePath(MyNavigationManager.Uri).Trim('/');
 
-        PageName = string.IsNullOrEmpty(PageName)
+        //GetCurrentParagraph();
+    }
+
+
+    protected override async Task OnParametersSetAsync()
+    {
+        await base.OnParametersSetAsync();
+        GetCurrentParagraph();
+
+    }
+
+    private void GetCurrentParagraph()
+    {
+
+        //PageName = MyNavigationManager.ToBaseRelativePath(MyNavigationManager.Uri).Trim('/');
+        //var PageQ = MyNavigationManager.GetUriWithQueryParameter("pagename", "Morena Baccarin");
+        Page = string.IsNullOrEmpty(Page)
         ? "home"
-        : PageName;
+        : Page;
 
         //currentParagraph = paragraphs.FirstOrDefault(p => p.Header.ToLower() == PageName.ToLower(), paragraphs.FirstOrDefault())!;
-        currentParagraph = paragraphs?.FirstOrDefault(p => p.Header.ToLower() == PageName.ToLower());
+        currentParagraph = paragraphs?.FirstOrDefault(p => p.Header.ToLower() == Page.ToLower());
 
         if (currentParagraph == null)
             throw new ArgumentNullException(nameof(currentParagraph));

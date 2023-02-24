@@ -1,0 +1,7 @@
+﻿<li class="nav-item"><NavLink class="nav-link" href="@($"/?Page={LinkName}")">@LinkName</NavLink></li>
+
+@code {
+    [Parameter]
+    public string LinkName { get; set; } = string.Empty;
+
+}
