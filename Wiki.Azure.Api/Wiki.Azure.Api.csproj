@@ -8,12 +8,17 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Azure.Data.Tables" Version="12.8.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Components" Version="7.0.3" />
     <PackageReference Include="Microsoft.Azure.Functions.Worker" Version="1.10.1" />
     <PackageReference Include="Microsoft.Azure.Functions.Worker.Extensions.Http" Version="3.0.13" />
     <PackageReference Include="Microsoft.Azure.Functions.Worker.Extensions.Storage.Blobs" Version="5.0.1" />
     <PackageReference Include="Microsoft.Azure.Functions.Worker.Extensions.Storage.Queues" Version="5.0.0" />
     <PackageReference Include="Microsoft.Azure.Functions.Worker.Extensions.Tables" Version="1.0.0" />
     <PackageReference Include="Microsoft.Azure.Functions.Worker.Sdk" Version="1.7.0" />
+    <PackageReference Include="WindowsAzure.Storage" Version="9.3.3" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Wiki.Shared\Wiki.Shared.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Update="host.json">

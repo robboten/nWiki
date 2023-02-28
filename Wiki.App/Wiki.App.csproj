@@ -14,4 +14,8 @@
     <PackageReference Include="TinyMCE.Blazor" Version="1.0.4" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Wiki.Shared\Wiki.Shared.csproj" />
+  </ItemGroup>
+
 </Project>

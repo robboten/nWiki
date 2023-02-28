@@ -7,7 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wiki.App", "Wiki.App\Wiki.A
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wiki.Api", "Wiki.Api\Wiki.Api.csproj", "{3243A9D1-4C38-4BB8-A887-73CD294FD67B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wiki.Azure.Api", "Wiki.Azure.Api\Wiki.Azure.Api.csproj", "{D922EF67-1828-4500-8515-A77F51F74C43}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wiki.Azure.Api", "Wiki.Azure.Api\Wiki.Azure.Api.csproj", "{D922EF67-1828-4500-8515-A77F51F74C43}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wiki.Shared", "Wiki.Shared\Wiki.Shared.csproj", "{2E332F5B-44A0-463F-BB2B-D44D734252A8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{D922EF67-1828-4500-8515-A77F51F74C43}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D922EF67-1828-4500-8515-A77F51F74C43}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D922EF67-1828-4500-8515-A77F51F74C43}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2E332F5B-44A0-463F-BB2B-D44D734252A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E332F5B-44A0-463F-BB2B-D44D734252A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E332F5B-44A0-463F-BB2B-D44D734252A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E332F5B-44A0-463F-BB2B-D44D734252A8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
