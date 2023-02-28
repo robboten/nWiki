@@ -96,7 +96,8 @@ namespace Wiki.Azure.Api
 
             NullableResponse<WikiPageTable> tableData = await tableClient.GetEntityIfExistsAsync<WikiPageTable>(partitionName, rowKey);
 
-            var page = Mapper.PutToWikiPageTable(createdItem);
+            //var page = Mapper.PutToWikiPageTable(createdItem);
+            var page = new WikiPageTable(createdItem);
 
             if (tableData.HasValue)
             {
@@ -153,8 +154,8 @@ namespace Wiki.Azure.Api
                 return response;
             }
 
-            var tableData = Mapper.PostToWikiPageTable(createdItem);
-
+            //var tableData = Mapper.PostToWikiPageTable(createdItem);
+            var tableData = new WikiPageTable(createdItem);
             var tableClient = await GetTableClient();
             await tableClient.AddEntityAsync(tableData);
 

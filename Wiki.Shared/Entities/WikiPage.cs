@@ -11,7 +11,7 @@ namespace Wiki.App.Entities
         //public MarkupString Content { get; set; }
         public bool Published { get; set; }
         public DateTime Created { get; set; }
-        public DateTime Updated { get; set; }
+        public DateTime? Updated { get; set; }
 
         public Guid Guid { get; set; }
     }
