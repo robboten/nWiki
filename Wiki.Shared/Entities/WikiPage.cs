@@ -4,7 +4,7 @@ namespace Wiki.App.Entities
 {
     public class WikiPage
     {
-        //public int Id { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; } = string.Empty;
         public string Content { get; set; } = string.Empty;
 
@@ -13,7 +13,7 @@ namespace Wiki.App.Entities
         public DateTime Created { get; set; }
         public DateTime? Updated { get; set; }
 
-        public Guid Guid { get; set; }
+        public Guid Guid { get; set; } = Guid.Empty;
 
         public string PageType { get; set; } = string.Empty; //="page";
       }

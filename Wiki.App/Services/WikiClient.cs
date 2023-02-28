@@ -46,19 +46,20 @@ namespace Wiki.App.Services
             return (await _httpClient.DeleteAsync($"api/characters/{id}")).IsSuccessStatusCode;
         }
 
-        public Task<Paragraph> GetParagraphByIdAsync(int? Id)
+        public Task<WikiPage> GetPostByIdAsync(string? Guid)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<bool> PutParagraphAsync(Paragraph paragraph)
+        public async Task<bool> PutPostAsync(WikiPage page)
         {
-            return (await _httpClient.PutAsJsonAsync($"api/wiki/{paragraph.Id}", paragraph)).IsSuccessStatusCode;
+            var temp = await _httpClient.PutAsJsonAsync($"api/wiki/{page.Guid}", page);
+            return temp.IsSuccessStatusCode;
         }
 
-        public async Task<IEnumerable<Paragraph>> GetParagraphsAsync()
+        public async Task<IEnumerable<WikiPage>> GetPostsAsync()
         {
-            return await _httpClient.GetFromJsonAsync<IEnumerable<Paragraph>>("api/wiki");
+            return await _httpClient.GetFromJsonAsync<IEnumerable<WikiPage>>("api/wiki");
         }
     }
 }

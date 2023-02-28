@@ -24,10 +24,10 @@
     [SupplyParameterFromQuery]
     public string Page { get; set; } = string.Empty;
 
-    private IEnumerable<Paragraph> paragraphs = new List<Paragraph>();
+    private IEnumerable<WikiPage> pages = new List<WikiPage>();
     private IEnumerable<Character> characters = new List<Character>();
 
-    private Paragraph? currentParagraph = new Paragraph();
+    private WikiPage? currentPage = new WikiPage();
     private MarkupString markupString;
 
     [Inject]
@@ -35,10 +35,10 @@
 
     protected override async Task OnInitializedAsync()
     {
-        paragraphs = await wikiClient.GetParagraphsAsync();
+        pages = await wikiClient.GetPostsAsync();
         characters = await wikiClient.GetCharactersAsync();
 
-        if(paragraphs==null || characters == null)
+        if(pages==null || characters == null)
         {
             throw new ArgumentNullException();
         }
@@ -47,22 +47,22 @@
     protected override async Task OnParametersSetAsync()
     {
         await base.OnParametersSetAsync();
-        GetCurrentParagraph();
+        GetCurrentPage();
 
     }
 
-    private void GetCurrentParagraph()
+    private void GetCurrentPage()
     {
         Page = string.IsNullOrEmpty(Page)
         ? "home"
         : Page;
 
-        currentParagraph = paragraphs?.FirstOrDefault(p => p.Header.ToLower() == Page.ToLower());
+        currentPage = pages?.FirstOrDefault(p => p.Name.ToLower() == Page.ToLower());
 
-        if (currentParagraph == null)
-            throw new ArgumentNullException(nameof(currentParagraph));
+        if (currentPage == null)
+            throw new ArgumentNullException(nameof(currentPage));
 
-        var html = currentParagraph.Body;
+        var html = currentPage.Content;
         markupString = (MarkupString)html; // or new MarkupString(html)
     }
 }

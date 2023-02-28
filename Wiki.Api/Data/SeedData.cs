@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Wiki.Api.Data;
 using Wiki.Api.Entities;
+using Wiki.App.Entities;
 
 internal class SeedData
 {
@@ -18,10 +19,10 @@ internal class SeedData
 
         var options = new Newtonsoft.Json.JsonSerializerSettings{  Formatting = Formatting.Indented };
 
-        List<TextBlock>? textblocks = JsonConvert.DeserializeObject<List<TextBlock>>(jsonData);
+        List<WikiPage>? wikipages = JsonConvert.DeserializeObject<List<WikiPage>>(jsonData);
 
         await wikiApiContext.AddRangeAsync(characters);
-        await wikiApiContext.AddRangeAsync(textblocks);
+        await wikiApiContext.AddRangeAsync(wikipages);
         await wikiApiContext.SaveChangesAsync();
     }
 

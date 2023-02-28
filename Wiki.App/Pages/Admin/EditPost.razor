@@ -1,4 +1,4 @@
-﻿@page "/editpost/{Id:int?}"
+﻿@page "/editpost/{Guid?}"
 @layout AdminLayout
 
 @using Wiki.App.Services;
@@ -10,9 +10,9 @@
 @* dropdown with available texts *@
 <EditForm EditContext="editContext">
     <InputSelect @bind-Value=selectItemId class="form-control">
-        @foreach (Paragraph paragraph in paragraphs)
+        @foreach (WikiPage wpage in wikiPages)
         {
-            <option value="@paragraph.Id">@paragraph.Header</option>
+            <option value="@wpage.Guid">@wpage.Name</option>
         }
     </InputSelect>
 </EditForm>
@@ -22,11 +22,11 @@
 
 @code {
     [Parameter]
-    public int? Id { get; set; }
+    public string? Guid { get; set; }
 
-    private IEnumerable<Paragraph> paragraphs = new List<Paragraph>();
-    private Paragraph selectedItem = new Paragraph();
-    private int selectItemId;
+    private IEnumerable<WikiPage> wikiPages = new List<WikiPage>();
+    private WikiPage selectedItem = new WikiPage();
+    private string selectItemId = string.Empty;
 
     [Inject]
     public IWikiClient wikiClient { get; set; } = default!;
@@ -43,7 +43,7 @@
 
     private void EditContext_OnFieldChanged(object sender, FieldChangedEventArgs e)
     {
-        var getSel = paragraphs.FirstOrDefault(p => p.Id == selectItemId);
+        var getSel = wikiPages.FirstOrDefault(p => p.Guid.ToString().Equals(selectItemId));
         if (getSel != null)
             selectedItem = getSel;
         StateHasChanged();
@@ -51,16 +51,16 @@
 
     protected override async Task OnInitializedAsync()
     {
-        paragraphs = await wikiClient.GetParagraphsAsync();
+        wikiPages = await wikiClient.GetPostsAsync();
 
-        if (Id != null)
+        if (!string.IsNullOrEmpty(Guid))
         {
-            selectedItem = paragraphs.FirstOrDefault(p => p.Id == Id);
+            selectedItem = wikiPages.FirstOrDefault(p => p.Guid.ToString().Equals(Guid));
             
         }
-        if (String.IsNullOrEmpty(selectedItem.Header))
+        if (String.IsNullOrEmpty(selectedItem.Name))
         {
-            selectedItem = paragraphs.FirstOrDefault();
+            selectedItem = wikiPages.FirstOrDefault();
         }
         
     }

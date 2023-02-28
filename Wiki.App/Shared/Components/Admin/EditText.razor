@@ -2,14 +2,14 @@
 @using TinyMCE.Blazor
 
 <EditForm EditContext="editContext" OnValidSubmit="OnSave">
-    <InputText @bind-Value="selectedItem.Header" class="form-control" id="header" placeholder="Header"></InputText>
-    <Editor ApiKey="@_apikey" Conf="@_conf" Field="() => selectedItem.Body" @bind-Value="selectedItem.Body" />
+    <InputText @bind-Value="selectedItem.Name" class="form-control" id="header" placeholder="Header"></InputText>
+    <Editor ApiKey="@_apikey" Conf="@_conf" Field="() => selectedItem.Content" @bind-Value="selectedItem.Content" />
     <button type="submit" id="addItemBtn" class="btn btn-primary">Save</button>
 </EditForm>
 
 @code {
     [Parameter]
-    public Paragraph selectedItem { get; set; } = new Paragraph();
+    public WikiPage selectedItem { get; set; } = new WikiPage();
    
     [Inject]
     public IWikiClient wikiClient { get; set; } = default!;
@@ -28,7 +28,7 @@
         {
             throw new ArgumentNullException(nameof(selectedItem));
         }
-        var item = await wikiClient.PutParagraphAsync(selectedItem);
+        var item = await wikiClient.PutPostAsync(selectedItem);
     }
 
     //tinymce

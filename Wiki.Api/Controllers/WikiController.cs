@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Wiki.Api.Data;
 using Wiki.Api.Entities;
+using Wiki.App.Entities;
 
 namespace Wiki.Api.Controllers
 {
@@ -19,26 +20,26 @@ namespace Wiki.Api.Controllers
 
         //GET: api/wiki
        [HttpGet]
-        public async Task<ActionResult<IEnumerable<TextBlock>>> GetAsync()
+        public async Task<ActionResult<IEnumerable<WikiPage>>> GetAsync()
         {
-            if (_context.TextBlock == null)
+            if (_context.WikiPage == null)
             {
                 return NotFound();
             }
-            return await _context.TextBlock.ToListAsync();
+            return await _context.WikiPage.ToListAsync();
         }
 
         // PUT: api/wiki/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutAsync(int id, TextBlock textBlock)
+        [HttpPut("{guid}")]
+        public async Task<IActionResult> PutAsync(string guid, WikiPage wikiPage)
         {
-            if (id != textBlock.Id)
+            if (!guid.Equals(wikiPage.Guid.ToString()))
             {
                 return BadRequest();
             }
 
-            _context.Entry(textBlock).State = EntityState.Modified;
+            _context.Entry(wikiPage).State = EntityState.Modified;
 
             try
             {
@@ -46,7 +47,7 @@ namespace Wiki.Api.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!WikiExists(id))
+                if (!WikiExists(guid))
                 {
                     return NotFound();
                 }
@@ -58,9 +59,9 @@ namespace Wiki.Api.Controllers
 
             return NoContent();
         }
-        private bool WikiExists(int id)
+        private bool WikiExists(string guid)
         {
-            return (_context.TextBlock?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.WikiPage?.Any(e => e.Equals(guid))).GetValueOrDefault();
         }
     }
 }
