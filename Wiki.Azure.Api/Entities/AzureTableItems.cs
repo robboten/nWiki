@@ -10,18 +10,22 @@ namespace Wiki.Azure.Api.Entities
 
         public class WikiPagePost
         {
+            //public int Id { get; set; }
             public string Name { get; set; } = string.Empty;
             public string Content { get; set; } = string.Empty;
             public bool Published { get; set; }
             public Guid Guid { get; set; } = Guid.NewGuid();
+            public string PageType { get; set; } = "page";
         }
 
         public class WikiPagePut
         {
+            //public int Id { get; set; }
             public string Name { get; set; } = string.Empty;
             public string Content { get; set; } = string.Empty;
             public bool Published { get; set; }
             public Guid Guid { get; set; }
+            public string PageType { get; set; } = "page";
         }
 
         public class WikiPageTable : BaseTableEntity
@@ -47,19 +51,23 @@ namespace Wiki.Azure.Api.Entities
             //}
             public WikiPageTable(WikiPagePost page) : base(PartitionKeyPage, page.Guid.ToString())
             {
+               // Id= page.Id;
                 Name = page.Name;
                 Content = page.Content;
                 Published = page.Published;
                 Guid = page.Guid;
                 Created = DateTime.UtcNow;
+                PageType = page.PageType;
             }
 
             public WikiPageTable(WikiPagePut page) : base(PartitionKeyPage, page.Guid.ToString())
             {
+                //Id= page.Id;
                 Name= page.Name;
                 Content= page.Content;
                 Published= page.Published;
                 Guid = page.Guid;
+                PageType = page.PageType;
 
             }
             //public int Id { get; set; }
@@ -69,6 +77,7 @@ namespace Wiki.Azure.Api.Entities
             public DateTime? Updated { get; set; }
             public Guid Guid { get; set; }
             public string Content { get; set; } = string.Empty;
+            public string PageType { get; set; } = "page";
             //public MarkupString Content { get; set ; }
         }
 

@@ -1,4 +1,5 @@
-﻿using Wiki.App.Entities;
+﻿using Microsoft.AspNetCore.Components;
+using Wiki.App.Entities;
 using static Wiki.Azure.Api.Entities.AzureTableItems;
 
 namespace Wiki.Azure.Api.Extensions
@@ -43,13 +44,14 @@ namespace Wiki.Azure.Api.Extensions
         {
             return new WikiPage
             {
-                // Id = wikiPageTable.Id,
+                //Id = wikiPageTable.Id,
                 Guid = wikiPageTable.Guid,
                 Name = wikiPageTable.Name,
                 Content = wikiPageTable.Content,
                 Published = wikiPageTable.Published,
                 Created = wikiPageTable.Created,
-                Updated = wikiPageTable.Updated
+                Updated = wikiPageTable.Updated,
+                PageType = wikiPageTable.PageType,
             };
 
         }
