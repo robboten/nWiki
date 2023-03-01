@@ -30,6 +30,10 @@ namespace Wiki.Azure.Api.Entities
 
         public class WikiPageTable : ITableEntity
         {
+            public WikiPageTable()
+            {
+
+            }
             public WikiPageTable(WikiPagePost page)
             {
                // Id= page.Id;

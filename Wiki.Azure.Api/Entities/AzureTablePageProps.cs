@@ -23,7 +23,7 @@ namespace Wiki.Azure.Api.Entities
                 PartitionKey = PartitionKeyPageProp;
             }
 
-            //Azure table
+            //Azure TableEntity
             public string PartitionKey { get; set; } = string.Empty;
             public string RowKey { get; set; } = string.Empty;
             public DateTimeOffset? Timestamp { get; set; }
