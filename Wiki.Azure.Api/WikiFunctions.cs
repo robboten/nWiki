@@ -7,7 +7,7 @@ using System.Net;
 using System.Text.Json;
 using Wiki.Azure.Api.Extensions;
 using static System.Runtime.InteropServices.JavaScript.JSType;
-using static Wiki.Azure.Api.Entities.AzureTableItems;
+using static Wiki.Azure.Api.Entities.AzureTablePages;
 
 namespace Wiki.Azure.Api
 {
@@ -154,7 +154,6 @@ namespace Wiki.Azure.Api
                 return response;
             }
 
-            //var tableData = Mapper.PostToWikiPageTable(createdItem);
             var tableData = new WikiPageTable(createdItem);
             var tableClient = await GetTableClient();
             await tableClient.AddEntityAsync(tableData);
@@ -168,8 +167,8 @@ namespace Wiki.Azure.Api
 
         private static async Task<TableClient> GetTableClient()
         {
-            var connectionString = Environment.GetEnvironmentVariable(ConnectionName);
             //var connectionString = Environment.GetEnvironmentVariable("AzureWebJobsStorage");
+            var connectionString = Environment.GetEnvironmentVariable(ConnectionName);
             var client = new TableClient(connectionString, "Wiki");
             await client.CreateIfNotExistsAsync();
             return client;

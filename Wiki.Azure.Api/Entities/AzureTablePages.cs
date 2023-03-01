@@ -3,7 +3,7 @@ using Azure.Data.Tables;
 
 namespace Wiki.Azure.Api.Entities
 {
-    public class AzureTableItems
+    public class AzureTablePages
     {
 
         private const string PartitionKeyPage = "WikiPage";
@@ -28,39 +28,23 @@ namespace Wiki.Azure.Api.Entities
             public string PageType { get; set; } = "page";
         }
 
-        public class WikiPageTable : BaseTableEntity
+        public class WikiPageTable : ITableEntity
         {
-            public WikiPageTable()
-            {
-            }
-
-            //public static WikiPageTable PostToWikiPageTable(this WikiPagePost wikiPage)
-            //{
-            //    var guid = Guid.NewGuid();
-            //    return new WikiPageTable
-            //    {
-            //        Guid = guid,
-            //        Published = wikiPage.Published,
-            //        Name = wikiPage.Name,
-            //        Content = wikiPage.Content,
-            //        Created = DateTime.UtcNow,
-            //        Updated = new DateTime(1602, 1, 1).ToUniversalTime(),
-            //        PartitionKey = PartitionKeyPage,
-            //        RowKey = guid.ToString(),
-            //    };
-            //}
-            public WikiPageTable(WikiPagePost page) : base(PartitionKeyPage, page.Guid.ToString())
+            public WikiPageTable(WikiPagePost page)
             {
                // Id= page.Id;
                 Name = page.Name;
                 Content = page.Content;
                 Published = page.Published;
                 Guid = page.Guid;
-                Created = DateTime.UtcNow;
                 PageType = page.PageType;
+                PartitionKey = PartitionKeyPage;
+                RowKey = page.Guid.ToString();
+
+                Created = DateTime.UtcNow;
             }
 
-            public WikiPageTable(WikiPagePut page) : base(PartitionKeyPage, page.Guid.ToString())
+            public WikiPageTable(WikiPagePut page)
             {
                 //Id= page.Id;
                 Name= page.Name;
@@ -68,7 +52,8 @@ namespace Wiki.Azure.Api.Entities
                 Published= page.Published;
                 Guid = page.Guid;
                 PageType = page.PageType;
-
+                PartitionKey = PartitionKeyPage;
+                RowKey = page.Guid.ToString();
             }
             //public int Id { get; set; }
             public string Name { get; set; } = string.Empty;
@@ -79,29 +64,35 @@ namespace Wiki.Azure.Api.Entities
             public string Content { get; set; } = string.Empty;
             public string PageType { get; set; } = "page";
             //public MarkupString Content { get; set ; }
-        }
 
-        public class BaseTableEntity : ITableEntity
-        {
-            public BaseTableEntity()
-            {  
-            }
-
-            public BaseTableEntity(string PartitionKey)
-            {
-                this.PartitionKey = PartitionKey;
-            }
-            public BaseTableEntity(string PartitionKey, string RowKey)
-            {
-                this.PartitionKey= PartitionKey;
-                this.RowKey= RowKey;
-            }
-
+            //Azure table
             public string PartitionKey { get; set; } = string.Empty;
             public string RowKey { get; set; } = string.Empty;
             public DateTimeOffset? Timestamp { get; set; }
             public ETag ETag { get; set; }
         }
+
+        //public class BaseTableEntity : ITableEntity
+        //{
+        //    public BaseTableEntity()
+        //    {  
+        //    }
+
+        //    public BaseTableEntity(string PartitionKey)
+        //    {
+        //        this.PartitionKey = PartitionKey;
+        //    }
+        //    public BaseTableEntity(string PartitionKey, string RowKey)
+        //    {
+        //        this.PartitionKey= PartitionKey;
+        //        this.RowKey= RowKey;
+        //    }
+
+        //    public string PartitionKey { get; set; } = string.Empty;
+        //    public string RowKey { get; set; } = string.Empty;
+        //    public DateTimeOffset? Timestamp { get; set; }
+        //    public ETag ETag { get; set; }
+        //}
 
         //public record WikiPageTableR(string PartitionKey, string RowKey, string Name, string Content, DateTime Created, DateTime Updated)
         //{

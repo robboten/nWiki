@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Wiki.Api.Data;
 
@@ -11,9 +12,11 @@ using Wiki.Api.Data;
 namespace Wiki.Api.Migrations
 {
     [DbContext(typeof(WikiApiContext))]
-    partial class WikiApiContextModelSnapshot : ModelSnapshot
+    [Migration("20230301090037_WikiPageMetaData")]
+    partial class WikiPageMetaData
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -101,7 +104,7 @@ namespace Wiki.Api.Migrations
                     b.ToTable("WikiPage");
                 });
 
-            modelBuilder.Entity("Wiki.Shared.Entities.WikiPageProps", b =>
+            modelBuilder.Entity("Wiki.Shared.Entities.WikiPageMeta", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -109,16 +112,16 @@ namespace Wiki.Api.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("MetaKey")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MetaValue")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<Guid>("PageGuid")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("PropKey")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PropValue")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 

@@ -1,6 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
-using Wiki.App.Entities;
-using static Wiki.Azure.Api.Entities.AzureTableItems;
+﻿using Wiki.App.Entities;
+using static Wiki.Azure.Api.Entities.AzureTablePages;
 
 namespace Wiki.Azure.Api.Extensions
 {
@@ -53,7 +52,6 @@ namespace Wiki.Azure.Api.Extensions
                 Updated = wikiPageTable.Updated,
                 PageType = wikiPageTable.PageType,
             };
-
         }
     }
 }
