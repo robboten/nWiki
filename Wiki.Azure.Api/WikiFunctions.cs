@@ -3,10 +3,7 @@ using Azure.Data.Tables;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
-using System.Collections.Concurrent;
-using System.Collections.Immutable;
 using System.Net;
-using System.Security.Cryptography.X509Certificates;
 using System.Text.Json;
 using Wiki.Azure.Api.Extensions;
 using static System.Runtime.InteropServices.JavaScript.JSType;
@@ -40,40 +37,38 @@ namespace Wiki.Azure.Api
             return response;
         }
 
-        [Function("TestAsync2")]
-        public async Task<IEnumerable<WikiPageTable>> GetAllAsync([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "wiki/test2/")] HttpRequestData req)
-        {
-            var tableClient = await GetTableClient();
-            IList<WikiPageTable> pageList = new List<WikiPageTable>();
-            var pages = tableClient.QueryAsync<WikiPageTable>( x => x.Published==true, maxPerPage: 10);
+        //[Function("TestAsync2")]
+        //public async Task<IEnumerable<WikiPageTable>> GetAllAsync([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "wiki/test2/")] HttpRequestData req)
+        //{
+        //    var tableClient = await GetTableClient();
+        //    IList<WikiPageTable> pageList = new List<WikiPageTable>();
+        //    var pages = tableClient.QueryAsync<WikiPageTable>( x => x.Published==true, maxPerPage: 10);
 
-            await foreach (var page in pages)
-            {
-                pageList.Add(page);
-            }
+        //    await foreach (var page in pages)
+        //    {
+        //        pageList.Add(page);
+        //    }
 
-            AsyncPageable<TableEntity> queryResultsSelect = tableClient.QueryAsync<TableEntity>();
-            await foreach (var q in queryResultsSelect)
-            {
-                var d = q.GetDateTime("Timestamp");
-                Console.WriteLine(d);
-            }
+        //    AsyncPageable<TableEntity> queryResultsSelect = tableClient.QueryAsync<TableEntity>();
+        //    await foreach (var q in queryResultsSelect)
+        //    {
+        //        var d = q.GetDateTime("Timestamp");
+        //        Console.WriteLine(d);
+        //    }
 
-            var partitionKey = "WikiPage";
-            Pageable<TableEntity> queryResultsFilter = tableClient.Query<TableEntity>(filter: $"PartitionKey eq '{partitionKey}'");
+        //    var partitionKey = "WikiPage";
+        //    Pageable<TableEntity> queryResultsFilter = tableClient.Query<TableEntity>(filter: $"PartitionKey eq '{partitionKey}'");
 
-            // Iterate the <see cref="Pageable"> to access all queried entities.
-            foreach (TableEntity qEntity in queryResultsFilter)
-            {
-                Console.WriteLine($"{qEntity.GetString("Name")}: {qEntity.GetString("Content")}");
-            }
+        //    // Iterate the <see cref="Pageable"> to access all queried entities.
+        //    foreach (TableEntity qEntity in queryResultsFilter)
+        //    {
+        //        Console.WriteLine($"{qEntity.GetString("Name")}: {qEntity.GetString("Content")}");
+        //    }
 
-            Console.WriteLine($"The query returned {queryResultsFilter.Count()} entities.");
+        //    Console.WriteLine($"The query returned {queryResultsFilter.Count()} entities.");
 
-
-            return pageList;
-
-        }
+        //    return pageList;
+        //}
 
 
 
@@ -196,6 +191,35 @@ namespace Wiki.Azure.Api
             await response.WriteAsJsonAsync(Mapper.ToWikiPage(tableData));
             response.StatusCode = HttpStatusCode.Created;
 
+            return response;
+        }
+
+        [Function("AddPagesAsync")]
+        public static async Task<HttpResponseData> AddPagesAsync(
+       [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "wiki/pages/batch/")] HttpRequestData req)
+        {
+            var response = req.CreateResponse();
+
+            //var stream = await new StreamReader(req.Body).ReadToEndAsync();
+            var createdItems = await req.ReadFromJsonAsync<IEnumerable<WikiPagePost>>();
+
+            if (createdItems is null)
+            {
+                return req.CreateResponse(HttpStatusCode.BadRequest);
+            }
+
+            var tableClient = await GetTableClient();
+
+            var pages = createdItems.Select(p => new WikiPageTable(p));
+
+            await tableClient.CreateIfNotExistsAsync();
+            foreach (var page in pages)
+            {
+                await tableClient.AddEntityAsync(page);
+            }
+
+            await response.WriteAsJsonAsync(createdItems);
+            response.StatusCode = HttpStatusCode.Created;
             return response;
         }
 
