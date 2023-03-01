@@ -361,3 +361,5 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/Wiki.Azure.Api/Properties/ServiceDependencies/nWikiFunc - Zip Deploy
+/Wiki.Azure.Api/Properties/serviceDependencies.nWikiFunc - Zip Deploy.json
